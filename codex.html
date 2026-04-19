@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Eternal Records — Codex · Between Two Thrones</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230d0b08'/><path d='M6 24L9 12L14 18L16 8L18 18L23 12L26 24H6Z' fill='%23c9a84c'/><rect x='6' y='24' width='20' height='3' rx='1' fill='%23c9a84c' opacity='.6'/></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;1,400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;min-height:100vh;background:#0d0b08;overflow-x:hidden}
+:root{--gold:#c9a84c;--gold-light:#e8c96a;--gold-dim:#7a6130;--parchment:#c4b48a;--parchment-dim:#8a7a5a}
+body{font-family:'EB Garamond',Georgia,serif;background:#0d0b08;color:var(--parchment)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#0a0805}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px}
+.header{display:flex;align-items:center;gap:16px;padding:14px 28px;border-bottom:1px solid var(--gold-dim);background:rgba(18,14,8,.98);position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.crown-box{width:42px;height:42px;border:1.5px solid var(--gold);border-radius:5px;display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.08);flex-shrink:0}
+.h-title{font-family:'Cinzel Decorative',serif;font-size:15px;letter-spacing:.15em;color:var(--gold);text-shadow:0 0 16px rgba(201,168,76,.4)}
+.h-sub{font-size:11px;letter-spacing:.1em;color:var(--gold-dim);margin-top:3px}
+.h-back{margin-left:auto;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.18em;color:var(--parchment-dim);text-decoration:none;padding:9px 18px;border:.5px solid var(--gold-dim);border-radius:1px;transition:all .2s;flex-shrink:0}
+.h-back:hover{color:var(--gold);border-color:var(--gold)}
+.nav{display:flex;border-bottom:1px solid var(--gold-dim);background:rgba(12,9,5,.98);padding:0 28px;overflow-x:auto}
+.tab{padding:13px 22px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.16em;color:var(--parchment);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .25s;white-space:nowrap}
+.tab:hover{color:var(--gold-light)}.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.view{display:none}.view.active{display:block}
+.main{padding:32px 28px;max-width:1100px;margin:0 auto}
+.rule{display:flex;align-items:center;gap:14px;margin-bottom:28px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.26em;color:var(--gold-dim)}
+.rule::before,.rule::after{content:'';flex:1;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-dim))}
+.rule::after{background:linear-gradient(270deg,transparent,var(--gold-dim))}
+.lamb-entry{position:relative;width:100%;margin-bottom:44px;padding:36px 44px;background:radial-gradient(ellipse 80% 100% at 50% 0%,rgba(201,168,76,.14) 0%,rgba(201,168,76,.03) 60%,transparent 100%),linear-gradient(180deg,#1e1a0a 0%,#0f0d06 100%);border:.5px solid var(--gold);border-radius:3px;cursor:pointer;box-shadow:0 0 50px rgba(201,168,76,.18),inset 0 0 36px rgba(0,0,0,.5);transition:box-shadow .4s,transform .3s;text-align:center;overflow:hidden}
+.lamb-entry:hover{box-shadow:0 0 80px rgba(201,168,76,.28);transform:translateY(-2px)}
+.lamb-entry::before{content:'';position:absolute;inset:8px;border:.5px solid rgba(201,168,76,.25);border-radius:1px;pointer-events:none}
+.lamb-rays{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% -10%,rgba(201,168,76,.05) 0deg,transparent 3deg,transparent 10deg);opacity:.65;pointer-events:none}
+.lamb-above{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.38em;color:var(--gold-dim);margin-bottom:14px}
+.lamb-name{font-family:'Cinzel Decorative',serif;font-size:clamp(24px,4.5vw,48px);color:var(--gold);text-shadow:0 0 36px rgba(201,168,76,.65);margin-bottom:9px}
+.lamb-epithet{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:var(--parchment-dim);margin-bottom:16px}
+.lamb-div{width:70px;height:.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 16px}
+.lamb-quote{font-style:italic;font-size:15px;color:var(--parchment);line-height:1.7;max-width:520px;margin:0 auto 20px;opacity:.9}
+.lamb-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border:1px solid var(--gold-dim);background:rgba(201,168,76,.06);color:var(--gold);font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;cursor:pointer;border-radius:2px;transition:all .25s}
+.lamb-btn:hover{background:rgba(201,168,76,.14);border-color:var(--gold)}
+.narrators{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:44px}
+@media(max-width:580px){.narrators{grid-template-columns:1fr}}
+.nc{position:relative;padding:26px 28px;border-radius:3px;cursor:pointer;transition:transform .28s;overflow:hidden}
+.nc:hover{transform:translateY(-3px)}
+.nc::before{content:'';position:absolute;inset:7px;border:.5px solid rgba(201,168,76,.16);border-radius:1px;pointer-events:none;z-index:1}
+.nc-z{background:linear-gradient(135deg,#1e1a0e,#171309,#1a1609);border:1.5px solid var(--gold-dim);box-shadow:0 0 28px rgba(201,168,76,.09)}
+.nc-z:hover{box-shadow:0 0 46px rgba(201,168,76,.18)}
+.nc-s{background:linear-gradient(135deg,#16121e,#100d18,#131020);border:1.5px solid #5a3a8a;box-shadow:0 0 28px rgba(120,80,200,.09)}
+.nc-s:hover{box-shadow:0 0 46px rgba(120,80,200,.18)}
+.filter-bar{margin-bottom:32px;padding:18px 22px;background:rgba(10,8,4,.6);border:.5px solid rgba(201,168,76,.14);border-radius:3px}
+.filter-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:10px}.filter-row:last-child{margin-bottom:0}
+.filter-label{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.24em;color:var(--gold-dim);min-width:48px;flex-shrink:0}
+.filter-btn{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.13em;padding:4px 10px;border-radius:1px;cursor:pointer;transition:all .2s;border:.5px solid transparent;background:rgba(255,255,255,.04);color:var(--parchment-dim)}
+.filter-btn:hover{color:var(--parchment)}.filter-btn.af{color:#0d0b08;font-weight:600}
+.filter-clear{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.13em;padding:4px 10px;border:.5px solid rgba(201,168,76,.18);color:var(--gold-dim);background:none;cursor:pointer;border-radius:1px;transition:all .2s;margin-left:auto}
+.filter-clear:hover{color:var(--gold)}.fdiv{height:.5px;background:linear-gradient(90deg,rgba(201,168,76,.09),transparent);margin:10px 0}
+.era-section{margin-bottom:44px}.era-section.hidden{display:none}
+.era-header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.era-name-h{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.22em;flex-shrink:0}
+.era-date-h{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.13em;color:var(--parchment-dim);font-style:italic;flex-shrink:0}
+.era-line-h{flex:1;height:.5px}
+.era-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
+.char-card{position:relative;border-radius:3px;cursor:pointer;transition:transform .25s;overflow:hidden}
+.char-card:hover{transform:translateY(-2px)}.char-card.hidden{display:none}
+.card-angel{background:linear-gradient(135deg,#1c180a,#141009,#1a1508);border:.8px solid rgba(201,168,76,.32)}
+.card-angel:hover{box-shadow:0 0 24px rgba(201,168,76,.12);border-color:rgba(201,168,76,.52)}
+.card-fallen{background:linear-gradient(135deg,#14101c,#0f0c17,#131020);border:.8px solid rgba(120,80,200,.28)}
+.card-fallen:hover{box-shadow:0 0 24px rgba(120,80,200,.09)}
+.card-adversary{background:linear-gradient(135deg,#140c0c,#100808,#180e0e);border:.8px solid rgba(160,48,48,.32)}
+.card-adversary:hover{box-shadow:0 0 24px rgba(160,48,48,.09)}
+.card-human{background:linear-gradient(135deg,#1a1510,#120f0a,#161209);border:.8px solid rgba(122,97,48,.22)}
+.card-human:hover{box-shadow:0 0 18px rgba(122,97,48,.07)}
+.card-sheen{position:absolute;inset:0;pointer-events:none}
+.card-angel .card-sheen{background:linear-gradient(135deg,rgba(201,168,76,.06) 0%,transparent 50%)}
+.card-fallen .card-sheen{background:linear-gradient(135deg,rgba(120,80,200,.05) 0%,transparent 50%)}
+.card-adversary .card-sheen{background:linear-gradient(135deg,rgba(160,48,48,.05) 0%,transparent 50%)}
+.card-human .card-sheen{background:linear-gradient(160deg,rgba(180,150,90,.04) 0%,transparent 60%)}
+.card-stripe{height:3px;width:100%;position:relative;z-index:2}
+.card-body{padding:15px 16px 14px;position:relative;z-index:2}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.card-badge{font-family:'Cinzel',serif;font-size:6.5px;letter-spacing:.14em;padding:2px 6px;border-radius:1px}
+.card-books{display:flex;gap:3px}
+.card-book{font-family:'Cinzel',serif;font-size:6.5px;letter-spacing:.1em;color:var(--parchment-dim);padding:2px 5px;border:.5px solid rgba(201,168,76,.1);border-radius:1px}
+.card-name{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.05em;margin-bottom:4px}
+.card-role{font-size:11px;line-height:1.5;color:var(--parchment-dim);margin-bottom:6px}
+.card-epithet{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.09em;opacity:.62}
+.empty-state{text-align:center;padding:56px 20px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;color:var(--gold-dim);display:none}
+.empty-state.visible{display:block}
+.mbg{position:fixed;inset:0;z-index:200;background:rgba(4,3,1,.9);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .28s}
+.mbg.open{opacity:1;pointer-events:all}
+.modal{position:relative;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;border-radius:3px;padding:36px;transform:translateY(18px);transition:transform .28s}
+.mbg.open .modal{transform:translateY(0)}
+.modal::before{content:'';position:absolute;inset:8px;border:.5px solid rgba(201,168,76,.1);border-radius:1px;pointer-events:none}
+.m-close{position:absolute;top:13px;right:13px;width:25px;height:25px;border:.8px solid var(--gold-dim);background:none;color:var(--gold-dim);font-size:12px;cursor:pointer;border-radius:2px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.m-close:hover{color:var(--gold);border-color:var(--gold)}
+.m-bar{height:3px;width:56px;border-radius:1px;margin-bottom:13px}
+.m-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.28em;color:var(--gold-dim);margin-bottom:6px}
+.m-name{font-family:'Cinzel Decorative',serif;font-size:26px;margin-bottom:3px}
+.m-epithet{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.15em;color:var(--parchment-dim);margin-bottom:16px}
+.m-div{height:.5px;background:linear-gradient(90deg,var(--gold-dim),transparent);margin:13px 0}
+.m-sh{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.26em;color:var(--gold-dim);margin-bottom:7px}
+.m-body{font-size:14px;line-height:1.78;color:var(--parchment);margin-bottom:13px}
+.m-quote{font-style:italic;font-size:13.5px;color:var(--parchment);border-left:1.5px solid var(--gold-dim);padding-left:13px;margin:13px 0;line-height:1.65;opacity:.88}
+.m-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.m-tag{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.16em;padding:3px 9px;border:.8px solid var(--gold-dim);color:var(--gold-dim);border-radius:1px}
+.conn-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:.5px solid rgba(201,168,76,.07);cursor:pointer;transition:opacity .2s}
+.conn-item:hover{opacity:.7}
+.conn-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.conn-name{font-family:'Cinzel',serif;font-size:9.5px;color:var(--gold);letter-spacing:.07em}
+.conn-rel{font-size:12.5px;color:var(--parchment-dim);margin-left:3px}
+.web-container{display:flex;align-items:stretch;gap:0;width:100%;height:calc(100vh - 112px);min-height:400px}
+.web-legend{width:200px;min-width:200px;background:rgba(10,8,5,.95);border:.5px solid rgba(201,168,76,.22);border-radius:2px 0 0 2px;padding:20px 18px;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;gap:0}
+.web-wrap{position:relative;flex:1;overflow:hidden;border-radius:0 2px 2px 0;background:#0a0806;min-width:0}
+#cvs{display:block;position:absolute;top:0;left:0;width:100%;height:100%}
+.tip{position:absolute;background:rgba(18,14,7,.97);border:.8px solid var(--gold-dim);padding:6px 12px;border-radius:2px;font-family:'Cinzel',serif;font-size:9px;color:var(--gold);letter-spacing:.07em;pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap}
+/* legend now in .web-container */
+.legend-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.18em;color:var(--gold-dim);margin-bottom:10px;margin-top:18px}.legend-title:first-child{margin-top:0}
+.legend-item{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.legend-label{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;color:var(--parchment-dim)}
+.legend-sizes{margin-top:14px;padding-top:14px;border-top:.5px solid rgba(201,168,76,.12)}
+.chronicle{position:relative;padding-left:30px}
+.chronicle-spine{position:absolute;left:9px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--gold),var(--gold-dim),rgba(122,97,48,.12))}
+.era-block{position:relative;margin-bottom:44px}
+.era-node{position:absolute;left:-25px;top:5px;width:13px;height:13px;border:1.5px solid var(--gold);border-radius:50%;background:#0d0b08;display:flex;align-items:center;justify-content:center}
+.era-node-dot{width:4px;height:4px;border-radius:50%}
+.era-block-name{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.22em;margin-bottom:3px}
+.era-block-date{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.13em;color:var(--parchment-dim);font-style:italic;margin-bottom:11px}
+.era-block-desc{font-size:13.5px;line-height:1.7;color:var(--parchment-dim);margin-bottom:14px;max-width:580px}
+.era-chars{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+.era-char-pill{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.1em;padding:4px 11px;border-radius:1px;cursor:pointer;transition:opacity .2s;border:.5px solid transparent}
+.era-char-pill:hover{opacity:.75}
+.era-events{display:flex;flex-direction:column;gap:7px}
+.era-event{padding:11px 14px;border-left:2px solid;border-radius:0 2px 2px 0;background:rgba(0,0,0,.2)}
+.era-event-name{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.13em;color:var(--gold);margin-bottom:4px}
+.era-event-quote{font-style:italic;font-size:11.5px;color:var(--parchment-dim);line-height:1.6;margin-bottom:3px;border-left:.5px solid rgba(201,168,76,.18);padding-left:9px}
+.era-event-desc{font-size:11.5px;line-height:1.55;color:var(--parchment-dim);opacity:.72}
+.lore-era-filters{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.lore-filter-btn{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.13em;padding:5px 13px;border-radius:1px;cursor:pointer;transition:all .2s;border:.5px solid transparent;background:rgba(255,255,255,.04);color:var(--parchment-dim)}
+.lore-filter-btn:hover{color:var(--parchment)}.lore-filter-btn.active{color:#0d0b08;font-weight:600}
+.lore-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:15px}
+.lore-card{padding:19px;background:linear-gradient(150deg,#1b1710 0%,#131008 100%);border:.8px solid rgba(201,168,76,.16);border-radius:2px;transition:all .25s}
+.lore-card:hover{border-color:rgba(201,168,76,.32)}.lore-card.hidden{display:none}
+</style></head><body>
+<div class="header">
+  <div class="crown-box">
+    <svg width="19" height="19" viewBox="0 0 20 20" fill="none">
+      <path d="M2 15L4 7L8 11L10 5L12 11L16 7L18 15H2Z" stroke="#c9a84c" stroke-width="1" fill="rgba(201,168,76,.12)"/>
+      <rect x="2" y="15" width="16" height="2" rx=".5" fill="#c9a84c" opacity=".55"/>
+    </svg>
+  </div>
+  <div>
+    <div class="h-title">THE ETERNAL RECORDS · CODEX V1.0</div>
+    <div class="h-sub">BETWEEN TWO THRONES — BOOKS I & II</div>
+  </div>
+  <a href="/" class="h-back">← RETURN TO THE WORLD</a>
+</div>
+<div class="nav">
+  <button class="tab active" onclick="switchTab('web',this)">THE RELATION WEB</button>
+  <button class="tab" onclick="switchTab('records',this)">ANGELIC RECORDS</button>
+  <button class="tab" onclick="switchTab('chronicle',this)">THE CHRONICLE</button>
+  <button class="tab" onclick="switchTab('lore',this)">ANCIENT LORE</button>
+</div>
+<div id="v-web" class="view active">
+  <div class="main">
+    <div class="rule">THE CELESTIAL RELATION WEB — CLICK ANY NODE TO CONSULT THE RECORD</div>
+    <div class="web-container">
+    <div class="web-legend">
+        <div class="legend-title">FACTION</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#c9a84c;box-shadow:0 0 5px rgba(201,168,76,.5)"></div><div class="legend-label">ETERNAL / HEAVENLY</div></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#9b7dd4"></div><div class="legend-label">FALLEN</div></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#a03030"></div><div class="legend-label">ADVERSARY</div></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#8a7a5a"></div><div class="legend-label">HUMAN</div></div>
+        <div class="legend-sizes">
+          <div class="legend-title" style="margin-bottom:5px">NODE SIZE</div>
+          <div class="legend-item"><div style="width:22px;height:22px;border-radius:50%;border:1px solid rgba(201,168,76,.6);background:rgba(14,11,6,.94);flex-shrink:0"></div><div class="legend-label">ETERNAL / NARRATOR</div></div>
+          <div class="legend-item"><div style="width:15px;height:15px;border-radius:50%;border:1px solid rgba(201,168,76,.5);background:rgba(14,11,6,.94);margin-left:2px;flex-shrink:0"></div><div class="legend-label">ANGEL / FALLEN</div></div>
+          <div class="legend-item"><div style="width:10px;height:10px;border-radius:50%;border:1px solid rgba(138,122,90,.5);background:rgba(14,11,6,.94);margin-left:4px;flex-shrink:0"></div><div class="legend-label">HUMAN</div></div>
+        </div>
+      </div>
+    <div class="web-wrap">
+      <canvas id="cvs"></canvas>
+      <div class="tip" id="tip"></div>
+    </div>
+    </div>
+  </div>
+</div>
+<div id="v-records" class="view"><div class="main" id="records-main"></div></div>
+<div id="v-chronicle" class="view">
+  <div class="main">
+    <div class="rule">THE CHRONICLE — THE AGES OF WITNESS</div>
+    <div class="chronicle" id="chronicle-main"><div class="chronicle-spine"></div></div>
+  </div>
+</div>
+<div id="v-lore" class="view">
+  <div class="main">
+    <div class="rule">ANCIENT LORE — PLACES · EVENTS · ARTIFACTS</div>
+    <div class="lore-era-filters" id="lore-filters"></div>
+    <div class="lore-grid" id="lore-list"></div>
+  </div>
+</div>
+<div class="mbg" id="mbg" onclick="closeMBG(event)"><div class="modal" id="modal-inner"></div></div>
+<script>
+const FAC={
+  eternal:{label:'ETERNAL',stripe:'#c9a84c',card:'card-angel',name:'#e8c96a',tagBg:'rgba(201,168,76,.12)',tagC:'#c9a84c',tagB:'rgba(201,168,76,.3)'},
+  heavenly:{label:'HEAVENLY',stripe:'#c9a84c',card:'card-angel',name:'#d4b96a',tagBg:'rgba(201,168,76,.1)',tagC:'#c9a84c',tagB:'rgba(201,168,76,.25)'},
+  fallen:{label:'FALLEN',stripe:'#9b7dd4',card:'card-fallen',name:'#b09de0',tagBg:'rgba(120,80,200,.1)',tagC:'#9b7dd4',tagB:'rgba(120,80,200,.3)'},
+  adversary:{label:'ADVERSARY',stripe:'#a03030',card:'card-adversary',name:'#c06060',tagBg:'rgba(160,48,48,.1)',tagC:'#a03030',tagB:'rgba(160,48,48,.3)'},
+  human:{label:'HUMAN',stripe:'#7a6130',card:'card-human',name:'#c4b48a',tagBg:'rgba(122,97,48,.08)',tagC:'#8a7a5a',tagB:'rgba(122,97,48,.2)'},
+};
+const f=id=>FAC[id]||FAC.human;
+const ERAS=[{"id": "before-words", "name": "THE AGE BEFORE WORDS", "date": "Undated — before the first morning", "color": "#c9a84c", "desc": "Before time had edges. Sound had not yet been given shape. Then the Music stopped — and something fragile, fierce, and free was about to begin.", "events": [{"name": "The First Declaration", "quote": "“I will make a creature of dust and breath — and set before it the terrifying gift of choice.”", "desc": "The Throne spoke and the Host trembled. Ten thousand times ten thousand wings stirred at once."}, {"name": "The Six Words of Creation", "quote": "“Let there be light.” And light was.", "desc": "Raw, white, obedient brilliance that had never been asked to exist before. It tore across the formless dark."}, {"name": "The Garden and the Two Trees", "quote": "“The forbidden one looks like freedom. The given one looks like obedience.”", "desc": "Eden’s rivers prophesying future empires. Two trees at the center."}, {"name": "The Fall", "quote": "“The sound it made leaving the branch was small, soft, final — like the closing of a door.”", "desc": "The serpent uncoiled. The fruit plucked. The juice ran red. The flaming sword began to turn."}]}, {"id": "age-of-blood", "name": "THE AGE OF BLOOD", "date": "Undated — east of Eden", "color": "#c06040", "desc": "Cities of mud-brick rising. Bronze singing. Violence covering the earth as water covers the sea. The daughters of men beautiful. The sons of God looking down — and not looking away.", "events": [{"name": "Cain and Abel", "quote": "“The voice of your brother’s blood cries out to Me from the ground.”", "desc": "Abel’s offering flared upward in clean flame. Cain’s hung low. Days later Abel lay still."}, {"name": "The Mark of Mercy", "quote": "“He put His own Name on a murderer — shielding the first killer from the death he earned.”", "desc": "God touched Cain’s forehead and burned a single letter of the Name into his skin."}, {"name": "The First Chord", "quote": "“I gave him beauty. One small gift in a world of thorns. Is that so terrible?”", "desc": "Samyaza’s hand moved before his mind caught up. One brush of immortal fingers across Jubal’s in Nod."}, {"name": "The Oath on Hermon", "quote": "“Tell me I am wrong, brother. Tell me one more time that waiting is mercy.”", "desc": "Two hundred gathered beneath a blood-red moon. Samyaza looked east — then cut his palm."}]}, {"id": "age-of-waters", "name": "THE AGE OF WATERS", "date": "Undated — the flood", "color": "#4a7aaa", "desc": "God walked the high places and every step was grief. But in a valley untouched by giants, one man found grace in the eyes of the Lord.", "events": [{"name": "The Building of the Ark", "quote": "“Make yourself an ark of gopher wood.” Noah did not argue. He only listened, and began to build.", "desc": "One hundred and twenty years of hammering under a sun that had never known rain."}, {"name": "God Shuts the Door", "quote": "“God shut the door — not Noah. God Himself reached down and closed it.”", "desc": "Eight souls. Every kind. Sealed inside mercy. Judgment outside."}, {"name": "The Binding of the Watchers", "quote": "“You were chief among us once.” “I still am.”", "desc": "Michael. Gabriel. Raphael. Uriel. Chains forged in the fire of the Throne. Samyaza knelt without resistance."}, {"name": "The Loosening", "quote": "“Not mercy. Not restoration. Just this: you’ll walk until the Lamb comes.” “Why?” “Because I’m still your brother.”", "desc": "Zeruel reached down and touched the chain. It slackened. The first rainbow arched above."}]}, {"id": "age-of-scattering", "name": "THE AGE OF SCATTERING", "date": "Undated — post-flood", "color": "#7a8a4a", "desc": "The dust settled the way it always does after God has moved — slow, indifferent, covering everything equally. Seventy fires where one great voice had been.", "events": [{"name": "Ham’s Gaze", "quote": "“Echoes that should have perished now brush the righteous, turning gift to fracture.”", "desc": "Noah uncovered in his tent. A whisper from before the waters brushing the rim of the moment."}, {"name": "The Table of Nations", "quote": "“Seventy nations. Symbol of fullness — of totality. Yet fullness without unity.”", "desc": "Three sons, seventy peoples. Altars changing in Ham’s branches."}, {"name": "The Tower of Babel", "quote": "“Not by flood — by mercy that scatters to save.”", "desc": "One tongue, one will. God descended not in wrath but in confusion."}, {"name": "The Long Silence", "quote": "“They would rather worship a tyrant they can see than a mercy they cannot understand.”", "desc": "The plain emptied. Unbound spirits carved faces into stone."}]}, {"id": "age-of-bronze", "name": "THE AGE OF BRONZE AND ASH", "date": "c. 2100–1500 BC", "color": "#aa8040", "desc": "Mercy rested on one man in the east. In Uz, where the sun rose red over pastures that remembered no flood, the blameless man rose before dawn to guard what he loved.", "events": [{"name": "The Heavenly Council", "quote": "“Why name him if You know the wind will come?”", "desc": "Sons of God before the Throne. The Adversary among them. God named Job. The wager was made."}, {"name": "The Day Everything Fell", "quote": "“Naked I came from my mother’s womb, and naked shall I return. Blessed be the name of the Lord.”", "desc": "Four messengers. One after another. Oxen. Sheep. Camels. Children. All gone."}, {"name": "The Long Night of Words", "quote": "“If there were an arbiter… if I could stand as one…”", "desc": "Three friends circling with explanations that wounded deeper than sores."}, {"name": "The Whirlwind Speaks", "quote": "“I had heard of You by the hearing of the ear — but now my eye sees You.”", "desc": "Not reasons — majesty. Behemoth. Leviathan. Foundations laid while morning stars sang."}, {"name": "Abram on the Horizon", "quote": "“Go — to a land I will show you.” Stars wheeled overhead.", "desc": "Between Zeruel and Samyaza the silence eased, lighter. A flicker of hope."}]}];
+const C=[{"id": "the-lamb", "name": "The Lamb Slain", "rank": "Eternal", "faction": "eternal", "era": "before-words", "color": "#c9a84c", "epithet": "FROM BEFORE THE FOUNDATION", "quote": "“Far above us, unseen by any but the Son Himself, the Lamb stood slain from before the foundation of the world. Neither of us knew that yet.”", "role": "Eternal presence in every age — the still center around which every scar turns", "books": ["ALL BOOKS"], "chapter": "Book I, Ch.1", "body": "Slain before the first Word was spoken. The Lamb stands unseen but felt in every chapter: in the first lambskin covering Adam and Eve, in Abel’s altar smoke, in the arc of the rainbow over Noah’s ark, in Job’s cry ‘my Redeemer lives,’ in the stars wheeling above Abram’s tent. He is the plan that holds when every argument threatens to unravel.", "connections": [{"to": "zeruel", "label": "His trust rests here"}, {"to": "noah", "label": "Covenant sealed with the rainbow"}, {"to": "job", "label": "“My Redeemer lives” — foreshadowed in"}, {"to": "abram", "label": "Promise carried forward through"}]}, {"id": "zeruel", "name": "Zeruel", "rank": "Primordial", "faction": "heavenly", "era": "before-words", "color": "#c9a84c", "epithet": "THE SONG BEFORE THE SILENCE", "quote": "“I do not understand yet. But I have never doubted that when the understanding comes, it will be beautiful.”", "role": "Narrator — the steady resonance, witness of every age", "books": ["BOOK I", "BOOK II"], "chapter": "Book I, Ch.1", "body": "The narrator and deep resonance. Zeruel carries the weight of trust across every age — mercy narrows then widens, beauty hides inside the breaking, the plan is worth the scars. He walked wing-to-wing with Samyaza before the first Word was spoken. He loosened Samyaza’s chain — not mercy, not restoration, just enough to let him walk until the Lamb comes.", "connections": [{"to": "samyaza", "label": "Brother — “wing brushing mine, older than galaxies”"}, {"to": "the-lamb", "label": "Trusts the covenant of"}, {"to": "noah", "label": "Watches the faithfulness of"}, {"to": "job", "label": "Witnesses the testing of"}]}, {"id": "samyaza", "name": "Samyaza", "rank": "Fallen Watcher", "faction": "fallen", "era": "before-words", "color": "#9b7dd4", "epithet": "THE BRIGHTER SORROW", "quote": "“I hope you’re right, brother. I hope the beauty is worth the breaking.”", "role": "Narrator — the brighter sorrow, from Hermon to the whirlwind’s edge", "books": ["BOOK I", "BOOK II"], "chapter": "Book I, Ch.1", "body": "The brighter voice — fierce and gentle in the same instant, eyes like dawn over still water. His sorrow began as love before love had a name. The first crack came when he brushed a chord into Jubal’s hands. One gift. Then the oath on Hermon. Then two hundred descended into flesh. In Book II his protective love presses ever closer to presumption.", "connections": [{"to": "zeruel", "label": "Brother — the steady resonance"}, {"to": "jubal", "label": "Gave the first true chord to"}, {"to": "the-watchers", "label": "Led two hundred onto Hermon"}, {"to": "noah", "label": "Watched the flood from the abyss"}, {"to": "job", "label": "Nearly offered himself as mediator for"}, {"to": "the-adversary", "label": "His shadow mirrors the wager of"}]}, {"id": "adam", "name": "Adam", "rank": "First Man", "faction": "human", "era": "before-words", "color": "#c4b48a", "epithet": "THE DUST THAT LOOKED INTO FIRE", "quote": "“The dust is looking at the Fire — and is not consumed.”", "role": "First human — from Eden’s garden to the cursed ground east of the sword", "books": ["BOOK I"], "chapter": "Book I, Ch.2–8", "body": "Shaped from a handful of earth, his eyes opened and looked straight into the face of God without dying. He named thousands of creatures yet none answered back with his name. At the tree he was silent when the serpent spoke. He took the fruit and ate. Then came the first accusation. He walked east into the world that had just learned how to bleed.", "connections": [{"to": "eve", "label": "“Bone of my bone, flesh of my flesh”"}, {"to": "zeruel", "label": "Witnessed from creation to exile"}, {"to": "the-lamb", "label": "Covered by lambskin pointing toward"}, {"to": "noah", "label": "Ancestor of"}]}, {"id": "eve", "name": "Eve", "rank": "First Woman", "faction": "human", "era": "before-words", "color": "#c4b48a", "epithet": "LIKE THE DAWN DECIDING TO BECOME A PERSON", "quote": "“She smiled, as though she had always known she was coming home.”", "role": "First woman — taken from Adam’s side, the mother of all living", "books": ["BOOK I"], "chapter": "Book I, Ch.4", "body": "Taken from Adam’s side during the deep sleep. Samyaza wept the first tears any of the Host had shed: “He opened him, emptied him, and filled the emptiness with something greater than what was lost.” At the forbidden tree curiosity was her first language. She reached, plucked, bit.", "connections": [{"to": "adam", "label": "Taken from his side"}, {"to": "samyaza", "label": "“Beautiful and terrible — like the dawn becoming a person”"}]}, {"id": "abel", "name": "Abel", "rank": "First Martyr", "faction": "human", "era": "age-of-blood", "color": "#c4b48a", "epithet": "THE VOICE CRYING FROM THE GROUND", "quote": "“The voice of your brother’s blood cries out to Me from the ground.”", "role": "Son of Adam — the first offering, the first death, the voice that prophesied", "books": ["BOOK I"], "chapter": "Book I, Ch.9", "body": "He rose before dawn to tend his flock. His offering flared upward in clean flame — fat portions, the firstborn of the flock, given without calculation. God looked with favor. Days later he lay still in a field far from the altar. He never spoke a word in the text. He did not need to. His blood became a voice louder than any sermon: the first death pointing toward the Last.", "connections": [{"to": "adam", "label": "Son of"}, {"to": "eve", "label": "Son of"}, {"to": "cain", "label": "Killed by — the first murder"}, {"to": "the-lamb", "label": "His blood cries out pointing toward"}, {"to": "seth", "label": "Seth born in his place"}]}, {"id": "cain", "name": "Cain", "rank": "First Murderer", "faction": "human", "era": "age-of-blood", "color": "#c4b48a", "epithet": "THE MARK OF MERCY ON A MURDERER", "quote": "“He put His own Name on a murderer — shielding the first killer from the death he earned.”", "role": "Son of Adam — the first murder, the first mercy no one asked for", "books": ["BOOK I"], "chapter": "Book I, Ch.9", "body": "His grain offering hung low while Abel’s flared upward. God warned him: “Sin is crouching at the door.” Days later Abel lay still in a field. Then God touched Cain’s forehead and burned a single letter of the Name into his skin. Samyaza stared: “If that is justice, I will never understand it.” Zeruel: “It is mercy no one asked for.”", "connections": [{"to": "adam", "label": "Son of"}, {"to": "eve", "label": "Son of"}, {"to": "jubal", "label": "Ancestor of — the music rose from his line"}, {"to": "the-lamb", "label": "His mark of mercy points toward"}]}, {"id": "seth", "name": "Seth", "rank": "Patriarch", "faction": "human", "era": "age-of-blood", "color": "#c4b48a", "epithet": "ANOTHER SEED IN ABEL’S PLACE", "quote": "“God has granted me another seed in place of Abel, for Cain killed him.”", "role": "Son of Adam — the remnant line, the Promise carried forward", "books": ["BOOK I"], "chapter": "Book I, Ch.10", "body": "Born nine months after Adam built a new altar over Abel’s stones. Eve lifted him toward heaven with trembling hands. Seth’s children called upon the name of the Lord while Cain’s built cities. The line of the Promise ran through Seth — thin, steady, never entirely cold.", "connections": [{"to": "adam", "label": "Son of — born in Abel’s place"}, {"to": "eve", "label": "Son of"}, {"to": "noah", "label": "Ancestor of — the remnant line continues"}]}, {"id": "jubal", "name": "Jubal", "rank": "Musician", "faction": "human", "era": "age-of-blood", "color": "#c4b48a", "epithet": "THE FIRST CHORD", "quote": "“I gave him beauty. One small gift in a world of thorns. Is that so terrible?”", "role": "Descendant of Cain — the door Samyaza opened that could not be closed", "books": ["BOOK I"], "chapter": "Book I, Ch.10", "body": "A boy in Nod sitting by a dying fire, trying to stretch wet gut across a hollow gourd. Samyaza crouched unseen and moved before his mind caught up. One brush of immortal fingers. The first true chord rang out, clear and heartbreaking.", "connections": [{"to": "samyaza", "label": "Received the first chord — the door opened"}, {"to": "cain", "label": "Descendant of — music from the marked line"}]}, {"id": "the-watchers", "name": "The Watchers", "rank": "Fallen Host", "faction": "fallen", "era": "age-of-blood", "color": "#9b7dd4", "epithet": "THE TWO HUNDRED OF HERMON", "quote": "“Let us all swear an oath and bind ourselves by mutual curses not to abandon this plan.”", "role": "Fallen angels — the oath in immortal blood, the great crossing", "books": ["BOOK I"], "chapter": "Book I, Ch.11", "body": "Two hundred gathered on Hermon beneath a blood-red moon. One by one they cut their palms. Samyaza’s turn came last. He looked east — toward Eden, toward Abel’s grave — then at Zeruel: “Tell me I am wrong, brother.” Zeruel had no words left. Samyaza cut his palm. The blood fell like the first drop of a storm that would drown the world.", "connections": [{"to": "samyaza", "label": "Led by — he swore last"}, {"to": "the-nephilim", "label": "Fathers of"}, {"to": "noah", "label": "Their violence filled the earth the flood would judge"}]}, {"id": "the-nephilim", "name": "The Nephilim", "rank": "Giants", "faction": "fallen", "era": "age-of-blood", "color": "#9b7dd4", "epithet": "CHILDREN OF THE CROSSING", "quote": "“Not kings. Not saviors. Nightmares that will haunt every nation that forgets the Name.”", "role": "Giant offspring of the Watchers — their spirits loosed as the nations’ demons", "books": ["BOOK I"], "chapter": "Book I, Ch.12–14", "body": "Sons of the Watchers and the daughters of men. Their footsteps shook the mountains. When the flood rose they fought — Gilgamesh on the highest ridge, still roaring as the water closed over his mouth. From every drowned corpse a spirit tore free. The nations would call them centaurs, satyrs, minotaurs.", "connections": [{"to": "the-watchers", "label": "Born of the oath on Hermon"}, {"to": "noah", "label": "Their violence hastened the flood of"}]}, {"id": "noah", "name": "Noah", "rank": "Righteous Man", "faction": "human", "era": "age-of-waters", "color": "#c4b48a", "epithet": "THE LAST BREATH BEFORE THE WATERS", "quote": "“He always saves a remnant. The Promise still floats.”", "role": "The one righteous man — the ark, the flood, the covenant of the rainbow", "books": ["BOOK I"], "chapter": "Book I, Ch.12–15", "body": "Six hundred years walking with God in a world that had forgotten Him. He built the ark under a sun that had never known rain. “God shut the door — not Noah.” After the waters receded, he stepped into mud thick with drowned memory, planted a vineyard. One evening the wine loosened him, and Ham’s gaze echoed Eden’s old nakedness.", "connections": [{"to": "zeruel", "label": "Watched through flood and covenant"}, {"to": "samyaza", "label": "His faithfulness watched from the abyss"}, {"to": "shem", "label": "Father of"}, {"to": "ham", "label": "Father of"}, {"to": "japheth", "label": "Father of"}, {"to": "the-lamb", "label": "Covenant sealed with the rainbow of"}]}, {"id": "shem", "name": "Shem", "rank": "Patriarch", "faction": "human", "era": "age-of-scattering", "color": "#c4b48a", "epithet": "THE BLESSED LINE", "quote": "“Blessed be the Lord, God of Shem.”", "role": "Son of Noah — the covenant line, ancestor of Abram", "books": ["BOOK I", "BOOK II"], "chapter": "Book I, Ch.13", "body": "Steady-eyed son of Noah. With Japheth he walked backward into the tent to cover what Ham had exposed. From his descendants would come the Semitic peoples and the quiet tent where the promise lay coiled — the line through which Abram would one day be called.", "connections": [{"to": "noah", "label": "Son of — walked backward to cover him"}, {"to": "abram", "label": "Ancestor of — the promise carried forward"}]}, {"id": "ham", "name": "Ham", "rank": "Patriarch", "faction": "human", "era": "age-of-scattering", "color": "#c4b48a", "epithet": "THE UNCOVERING", "quote": "“Echoes that should have perished now brush the righteous, turning gift to fracture.”", "role": "Son of Noah — his gaze began a curse; his branches built the first false altars", "books": ["BOOK I", "BOOK II"], "chapter": "Book II, Ch.1", "body": "Second son of Noah. When he found his father uncovered, a whisper from before the waters brushed the rim of the moment. He stepped back and told his brothers. From Ham’s branches the altars changed first: stones carved with faces, names spoken to the night.", "connections": [{"to": "noah", "label": "Son of — saw what should not have been seen"}, {"to": "canaan", "label": "Father of — the curse carried forward"}, {"to": "nimrod", "label": "Grandfather of"}]}, {"id": "japheth", "name": "Japheth", "rank": "Patriarch", "faction": "human", "era": "age-of-scattering", "color": "#c4b48a", "epithet": "THE ENLARGEMENT", "quote": "“Enlargement brings distance. Will they remember the waters when the cold bites?”", "role": "Son of Noah — his sons spread north and west into the Gentile nations", "books": ["BOOK I"], "chapter": "Book II, Ch.2", "body": "Third son of Noah. With Shem he walked backward to cover their father. His sons went north and west toward cold stone coasts. Samyaza wondered whether enlargement without the Name was merely a larger distance from the Promise.", "connections": [{"to": "noah", "label": "Son of"}, {"to": "shem", "label": "Brother — “dwelling in the tents of Shem”"}]}, {"id": "canaan", "name": "Canaan", "rank": "Cursed Line", "faction": "human", "era": "age-of-scattering", "color": "#c4b48a", "epithet": "SERVANT OF SERVANTS", "quote": "“A wound inside a promise — the curse becomes the stage.”", "role": "Son of Ham — his land becomes the promised land; curse becomes the stage for covenant", "books": ["BOOK II"], "chapter": "Book II, Ch.1", "body": "Son of Ham, upon whom Noah’s curse fell. The curse became prophecy: Canaan’s descendants would inhabit land that would one day be promised to Abram’s seed.", "connections": [{"to": "ham", "label": "Son of — the curse carried through"}, {"to": "abram", "label": "His land becomes the promised land of"}]}, {"id": "nimrod", "name": "Nimrod", "rank": "Mighty Man", "faction": "human", "era": "age-of-scattering", "color": "#c4b48a", "epithet": "THE FIRST BUILDER OF KINGDOMS", "quote": "“We could reach it.”", "role": "Grandson of Ham — the first empire-builder, shadow behind the tower", "books": ["BOOK II"], "chapter": "Book II, Ch.2", "body": "Grandson of Ham, the first empire-builder of the post-flood world. Under his rising dominion humanity converged on Shinar to build a tower whose top would reach heaven — the last unified human project before God scattered the tongues.", "connections": [{"to": "ham", "label": "Grandson of — the ambition rising"}, {"to": "babel", "label": "His shadow behind the tower of"}]}, {"id": "babel", "name": "The Tower of Babel", "rank": "Place / Event", "faction": "human", "era": "age-of-scattering", "color": "#c4b48a", "epithet": "UNITY FRACTURED BY MERCY", "quote": "“Not by flood — by mercy that scatters to save.”", "role": "The last unified human project — scattered by mercy, not wrath", "books": ["BOOK II"], "chapter": "Book II, Ch.3–4", "body": "Bricks baking dark and even under the sun of Shinar. One language, one will. God descended not in wrath but in confusion — a man called to his neighbor for mortar and the words arrived twisted, foreign. The scattering was the saving.", "connections": [{"to": "nimrod", "label": "Built under the shadow of"}, {"to": "samyaza", "label": "His confusion watched by"}, {"to": "zeruel", "label": "The mercy in the scattering named by"}]}, {"id": "the-adversary", "name": "The Adversary", "rank": "Accuser", "faction": "adversary", "era": "age-of-bronze", "color": "#a03030", "epithet": "THE ONE WHO WALKS TO AND FRO", "quote": "“Does Job fear God for nothing? Stretch out Your hand and touch all that he has.”", "role": "Prosecuting accuser of the heavenly court — the wager that became the crucible", "books": ["BOOK II"], "chapter": "Book II, Ch.7", "body": "He presented himself in the heavenly council carrying the scent of earth — dust, blood, restless turning. His wager was not malice but certainty: that love for the Creator must be bought, that faithfulness bends under loss. Samyaza saw his own shadow in it.", "connections": [{"to": "job", "label": "Accused and tested"}, {"to": "samyaza", "label": "His certainty mirrors the shadow Samyaza nearly wore"}]}, {"id": "job", "name": "Job", "rank": "Blameless Man", "faction": "human", "era": "age-of-bronze", "color": "#c4b48a", "epithet": "THE WHIRLWIND’S QUESTION", "quote": "“I had heard of You by the hearing of the ear — but now my eye sees You.”", "role": "The blameless man of Uz — the hedge, the test, the whirlwind, the turning", "books": ["BOOK II"], "chapter": "Book II, Ch.6–12", "body": "The blameless man of Uz who rose before dawn to guard what he loved. When the hedge fell: four messengers, one day — oxen, sheep, camels, children, all gone. Then the boils. Then his wife’s despair. Then three friends with explanations that wounded deeper than sores. The whirlwind spoke — not reasons, but majesty. Job saw. His captivity turned.", "connections": [{"to": "zeruel", "label": "Witnessed by"}, {"to": "samyaza", "label": "Nearly offered himself as mediator for"}, {"to": "the-adversary", "label": "Accused by in the heavenly council"}, {"to": "eliphaz", "label": "Friend who wounded with explanation"}, {"to": "bildad", "label": "Friend who wounded with tradition"}, {"to": "zophar", "label": "Friend who wounded with certainty"}, {"to": "abram", "label": "His testing precedes the promise of"}]}, {"id": "eliphaz", "name": "Eliphaz", "rank": "Friend of Job", "faction": "human", "era": "age-of-bronze", "color": "#c4b48a", "epithet": "THE THEOLOGIAN OF EXPERIENCE", "quote": "“The innocent never perish — the upright never cut down without cause.”", "role": "Friend of Job — the cleanest logic, the deepest wound", "books": ["BOOK II"], "chapter": "Book II, Ch.10", "body": "Temanite — most carefully reasoned of Job’s three friends. His logic was almost kind in its certainty: sin brings ruin, righteousness brings reward. He circled with the others, each cycle tightening the knot.", "connections": [{"to": "job", "label": "Friend who wounded with explanation"}]}, {"id": "bildad", "name": "Bildad", "rank": "Friend of Job", "faction": "human", "era": "age-of-bronze", "color": "#c4b48a", "epithet": "THE HISTORIAN OF TRADITION", "quote": "“Ask the former generations — the wicked wither, the blameless flourish.”", "role": "Friend of Job — ancestral wisdom pressed until it cracked", "books": ["BOOK II"], "chapter": "Book II, Ch.10", "body": "The Shuhite who appealed to ancestral wisdom. His speeches grew shorter as the argument failed, pressing harder with less to say.", "connections": [{"to": "job", "label": "Friend who wounded with tradition"}]}, {"id": "zophar", "name": "Zophar", "rank": "Friend of Job", "faction": "human", "era": "age-of-bronze", "color": "#c4b48a", "epithet": "THE MORALIST’S CERTAINTY", "quote": "“Can you find out the deep things of God? Confess — restoration follows.”", "role": "Friend of Job — the bluntest blade, the shortest speeches", "books": ["BOOK II"], "chapter": "Book II, Ch.10", "body": "The Naamathite — bluntest of the three. He pressed hardest with the least room for mystery. He fell silent after Job’s replies shattered every framework he carried.", "connections": [{"to": "job", "label": "Friend who wounded with certainty"}]}, {"id": "abram", "name": "Abram", "rank": "Patriarch", "faction": "human", "era": "age-of-bronze", "color": "#c4b48a", "epithet": "FATHER OF MANY — THE PROMISE STIRRING", "quote": "“Go — to a land I will show you.” Stars wheeled overhead. The bow still arched, patient.", "role": "Bridge figure — the promise moving from the whirlwind’s dust toward Book III", "books": ["BOOK II", "BOOK III"], "chapter": "Book II, Ch.12 (bridge)", "body": "He appears at the close of Book II — not yet named in the hearing of Zeruel and Samyaza, only “a man and his wife in a tent in the east, no children yet, the promise already moving toward them.” Between Zeruel and Samyaza the silence eased, lighter. A flicker of hope.", "connections": [{"to": "shem", "label": "Descendant of — the promise in his blood"}, {"to": "canaan", "label": "His promised land is the land of"}, {"to": "the-lamb", "label": "His promise carries the covenant of"}, {"to": "job", "label": "His calling follows the testing of"}]}];
+const LORE=[{"type": "PLACE", "title": "The Garden of Eden", "desc": "Where the two trees stood at the center. The Tree of Life pulsed like a second heart. The forbidden tree was quieter — fruit almost ordinary, golden-red. Nothing about it shouted death. The flaming sword still turns at the gate.", "era": "before-words"}, {"type": "PLACE", "title": "Mount Hermon", "desc": "Where the two hundred gathered beneath a blood-red moon and swore the oath in immortal blood. Samyaza swore last. “Tell me I am wrong, brother.” Then cut his palm.", "era": "age-of-blood"}, {"type": "PLACE", "title": "The Land of Nod", "desc": "East of Eden. Where Cain built the city of Enoch. Where Jubal stretched wet gut across a hollow gourd. Where Samyaza’s hand moved before his mind caught up.", "era": "age-of-blood"}, {"type": "PLACE", "title": "The Plain of Shinar", "desc": "Where all the earth gathered and built. Bricks baking dark and even, one tongue, one will. The tower stood unfinished. The rainbow held faint above — unstrung, patient.", "era": "age-of-scattering"}, {"type": "PLACE", "title": "The Land of Uz", "desc": "In the east, where the sun rose red over pastures that remembered no flood. Job rose before dawn every morning to guard what he loved. The hedge was here. And here it fell.", "era": "age-of-bronze"}, {"type": "EVENT", "title": "The First Chord", "desc": "One brush of immortal fingers across Jubal’s in Nod. The first true chord rang out. “I gave him beauty.” “This is how it begins.”", "era": "age-of-blood"}, {"type": "EVENT", "title": "The First Rainbow", "desc": "Another ʾot. “First His Name on Cain. Now His bow in the clouds. Mercy on mercy.” Samyaza: “Tell me this ends in blood.” Zeruel: “It ends in a Lamb.”", "era": "age-of-waters"}, {"type": "EVENT", "title": "The Oath on Hermon", "desc": "Two hundred cut their palms and swore in immortal blood. Samyaza spoke the curse last. Then descended. The long fall had begun.", "era": "age-of-blood"}, {"type": "EVENT", "title": "The Heavenly Council", "desc": "Sons of God before the Throne. The Adversary among them. God named Job. The wager was made. Samyaza stepped forward — half a step, wings flaring.", "era": "age-of-bronze"}, {"type": "EVENT", "title": "The Day Everything Fell", "desc": "Four messengers, one after another. Oxen. Sheep. Camels. Children. All gone. Job fell to the earth — and worshiped.", "era": "age-of-bronze"}, {"type": "EVENT", "title": "The Confusion of Tongues", "desc": "A man called to his neighbor for mortar. The words arrived twisted, foreign. The single tongue splintered into seventy. The tower stood abandoned.", "era": "age-of-scattering"}, {"type": "ARTIFACT", "title": "The Ark", "desc": "Three levels, row upon row of stalls. “There is room — more than enough. He planned for every kind.” God shut the door — not Noah.", "era": "age-of-waters"}, {"type": "ARTIFACT", "title": "The Lambskin Covering", "desc": "The first blood ever spilled. “This is how you will be covered. Not by leaves that wither. By blood that does not belong to you.”", "era": "before-words"}, {"type": "ARTIFACT", "title": "The Mark of Cain", "desc": "A single letter of the Name burned into his forehead like living fire that did not consume. “He put His own Name on a murderer.”", "era": "age-of-blood"}, {"type": "ARTIFACT", "title": "The Whirlwind", "desc": "“Where were you when I laid the foundation of the earth?” Not reasons — majesty. Job: “Now my eye sees You.”", "era": "age-of-bronze"}, {"type": "LORE", "title": "The Loosening of the Chain", "desc": "Zeruel reached down, touched the chain — and it slackened. “Not mercy. Not restoration. Just this: you’ll walk until the Lamb comes.” “Why?” “Because I’m still your brother.”", "era": "age-of-waters"}, {"type": "LORE", "title": "The Disembodied Spirits", "desc": "From every drowned Nephilim a spirit tore free. The nations would call them centaurs, satyrs, minotaurs — children of the oath sworn on Hermon.", "era": "age-of-waters"}, {"type": "LORE", "title": "The Mind-to-Mind", "desc": "The private language of angels — thought carried between wings, older than the voice. At Hermon it happened for the last time: “Tell me I am wrong, brother.” After that, only distance.", "era": "before-words"}, {"type": "LORE", "title": "The Unbound Spirits After Babel", "desc": "In the silence left by the scattering, the unbound ones moved like water into a crack. They wore whatever face the fear required. Protector. Storm-bringer. River-father.", "era": "age-of-scattering"}, {"type": "LORE", "title": "The Two Trees", "desc": "“The forbidden one looks like freedom. The given one looks like obedience.” Samyaza crushed the fruit of Life in his fist. Golden light ran between his fingers like liquid sunrise.", "era": "before-words"}];
+
+let activeEra=null,activeFac=null;
+function applyFilters(){
+  document.querySelectorAll('.era-section').forEach(sec=>{
+    const eraMatch=!activeEra||sec.dataset.era===activeEra;
+    let any=false;
+    sec.querySelectorAll('.char-card').forEach(card=>{
+      const show=eraMatch&&(!activeFac||card.dataset.faction===activeFac);
+      card.classList.toggle('hidden',!show);if(show)any=true;
+    });
+    sec.classList.toggle('hidden',!any||!eraMatch);
+  });
+  const empty=document.getElementById('empty-state');
+  const anyVis=[...document.querySelectorAll('.era-section')].some(s=>!s.classList.contains('hidden'));
+  if(empty)empty.classList.toggle('visible',!anyVis);
+}
+function setEraFilter(id,btn){
+  activeEra=activeEra===id?null:id;
+  document.querySelectorAll('.filter-btn[data-ftype="era"]').forEach(b=>{b.classList.remove('af');b.style.background='rgba(255,255,255,.04)';b.style.color='';b.style.borderColor='transparent';});
+  if(activeEra){btn.classList.add('af');const c=btn.dataset.color;btn.style.background=c+'33';btn.style.color=c;btn.style.borderColor=c+'66';}
+  applyFilters();
+}
+function setFacFilter(id,btn){
+  activeFac=activeFac===id?null:id;
+  document.querySelectorAll('.filter-btn[data-ftype="fac"]').forEach(b=>{b.classList.remove('af');b.style.background='rgba(255,255,255,.04)';b.style.color='';b.style.borderColor='transparent';});
+  if(activeFac){btn.classList.add('af');const c=btn.dataset.color;btn.style.background=c+'33';btn.style.color=c;btn.style.borderColor=c+'66';}
+  applyFilters();
+}
+function clearFilters(){
+  activeEra=null;activeFac=null;
+  document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('af');b.style.background='rgba(255,255,255,.04)';b.style.color='';b.style.borderColor='transparent';});
+  applyFilters();
+}
+function openModal(id){
+  const ch=C.find(x=>x.id===id);if(!ch)return;
+  const fv=f(ch.faction);
+  const bg=ch.faction==='eternal'?'#1e1a0a,#0f0d06':ch.faction==='fallen'?'#16121e,#0f0c17':ch.faction==='adversary'?'#160c0c,#0f0808':'#1c1710,#120f0a';
+  const modal=document.querySelector('.modal');
+  modal.style.background='linear-gradient(155deg,'+bg+')';
+  modal.style.border='1.5px solid '+fv.stripe+'55';
+  modal.style.boxShadow='0 0 56px '+fv.stripe+'1a';
+  document.getElementById('modal-inner').innerHTML=
+    '<button class="m-close" onclick="document.getElementById(\'mbg\').classList.remove(\'open\')">\u2715</button>'+
+    '<div class="m-bar" style="background:'+fv.stripe+'"></div>'+
+    '<div class="m-label">'+fv.label+' \u00b7 '+ch.rank.toUpperCase()+' \u00b7 '+ch.chapter.toUpperCase()+'</div>'+
+    '<div class="m-name" style="color:'+fv.name+'">'+ch.name+'</div>'+
+    '<div class="m-epithet">'+ch.epithet+'</div>'+
+    '<div class="m-div"></div>'+
+    '<div class="m-sh">THE RECORD</div>'+
+    '<div class="m-body">'+ch.body+'</div>'+
+    '<div class="m-quote">'+ch.quote+'</div>'+
+    '<div class="m-div"></div>'+
+    '<div class="m-sh">ROLE IN THE CODEX</div>'+
+    '<div class="m-body" style="font-style:italic;opacity:.7">'+ch.role+'</div>'+
+    '<div class="m-div"></div>'+
+    '<div class="m-sh">RELATIONSHIPS</div>'+
+    '<div>'+ch.connections.map(con=>{const t=C.find(x=>x.id===con.to);const tf=f(t&&t.faction||'human');return'<div class="conn-item" onclick="openModal(\''+con.to+'\')"><div class="conn-dot" style="background:'+tf.stripe+'"></div><div><span class="conn-name">'+(t&&t.name||con.to)+'</span><span class="conn-rel"> \u2014 '+con.label+'</span></div></div>';}).join('')+'</div>'+
+    '<div class="m-tags">'+(ch.books||[]).map(b=>'<span class="m-tag">'+b+'</span>').join('')+'<span class="m-tag" style="border-color:'+fv.stripe+';color:'+fv.name+'">'+fv.label+'</span></div>';
+  document.getElementById('mbg').classList.add('open');
+}
+function closeMBG(e){if(e.target===document.getElementById('mbg'))document.getElementById('mbg').classList.remove('open');}
+
+function renderRecords(){
+  const el=document.getElementById('records-main');
+  if(el.dataset.rendered)return;el.dataset.rendered='1';
+  let html='<div class="rule">THE ANGELIC RECORD \u2014 IN ORDER OF BEING</div>';
+  html+='<div class="lamb-entry" onclick="openModal(\'the-lamb\')"><div class="lamb-rays"></div><div class="lamb-above"><span style="display:inline-block;width:7px;height:7px;background:var(--gold);transform:rotate(45deg);margin:0 6px;opacity:.7"></span>ETERNAL \u00b7 ABOVE ALL ERAS \u00b7 ALL BOOKS<span style="display:inline-block;width:7px;height:7px;background:var(--gold);transform:rotate(45deg);margin:0 6px;opacity:.7"></span></div><div class="lamb-name">The Lamb Slain</div><div class="lamb-epithet">FROM BEFORE THE FOUNDATION OF THE WORLD</div><div class="lamb-div"></div><div class="lamb-quote">\u201cFar above us, unseen by any but the Son Himself, the Lamb stood slain from before the foundation of the world. Neither of us knew that yet.\u201d</div><div class="lamb-btn">CONSULT THE ETERNAL RECORD \u203a</div></div>';
+  html+='<div style="font-family:\'Cinzel\',serif;font-size:8px;letter-spacing:.26em;color:var(--gold-dim);text-align:center;margin-bottom:18px">ETERNAL WITNESSES \u2014 NARRATORS OF ALL AGES</div><div class="narrators">';
+  const z=C.find(c=>c.id==='zeruel'),s=C.find(c=>c.id==='samyaza');
+  html+=narCard(z,'nc-z','#c9a84c','rgba(201,168,76,.08)','#d4b96a','rgba(201,168,76,.12)','rgba(201,168,76,.25)');
+  html+=narCard(s,'nc-s','#9b7dd4','rgba(120,80,200,.08)','#b09de0','rgba(120,80,200,.1)','rgba(120,80,200,.25)');
+  html+='</div>';
+  html+='<div class="filter-bar"><div class="filter-row"><span class="filter-label">ERA</span>'+ERAS.map(e=>'<button class="filter-btn" data-ftype="era" data-color="'+e.color+'" style="border-color:'+e.color+'22" onclick="setEraFilter(\''+e.id+'\',this)">'+e.name.replace('THE ','')+'</button>').join('')+'<button class="filter-clear" onclick="clearFilters()">CLEAR</button></div><div class="fdiv"></div><div class="filter-row"><span class="filter-label">FACTION</span>'+Object.entries(FAC).filter(([k])=>k!=='eternal').map(([k,v])=>'<button class="filter-btn" data-ftype="fac" data-color="'+v.stripe+'" style="border-color:'+v.stripe+'22" onclick="setFacFilter(\''+k+'\',this)">'+v.label+'</button>').join('')+'</div></div>';
+  html+='<div class="empty-state" id="empty-state">NO RECORDS MATCH \u2014 <span style="cursor:pointer;text-decoration:underline" onclick="clearFilters()">CLEAR FILTERS</span></div>';
+  ERAS.forEach(era=>{
+    const chars=C.filter(c=>c.era===era.id&&c.id!=='zeruel'&&c.id!=='samyaza'&&c.id!=='the-lamb');
+    if(!chars.length)return;
+    html+='<div class="era-section" data-era="'+era.id+'"><div class="era-header"><span class="era-name-h" style="color:'+era.color+'">'+era.name+'</span><span class="era-date-h">'+era.date+'</span><div class="era-line-h" style="background:linear-gradient(90deg,'+era.color+'44,transparent)"></div></div><div class="era-grid">';
+    chars.forEach(c=>{
+      const fv=f(c.faction);
+      html+='<div class="char-card '+fv.card+'" data-faction="'+c.faction+'" onclick="openModal(\''+c.id+'\')"><div class="card-sheen"></div><div class="card-stripe" style="background:'+fv.stripe+'"></div><div class="card-body"><div class="card-top"><span class="card-badge" style="background:'+fv.tagBg+';color:'+fv.tagC+';border:.5px solid '+fv.tagB+'">'+fv.label+'</span><div class="card-books">'+(c.books||[]).map(b=>'<span class="card-book">'+b+'</span>').join('')+'</div></div><div class="card-name" style="color:'+fv.name+'">'+c.name+'</div><div class="card-role">'+c.role+'</div><div class="card-epithet" style="color:'+fv.tagC+'">'+c.epithet+'</div></div></div>';
+    });
+    html+='</div></div>';
+  });
+  el.innerHTML=html;
+}
+function narCard(c,cls,stripe,stripeBg,nameColor,tagBg,tagBorder){
+  const fv=f(c.faction);
+  return '<div class="'+cls+' nc" onclick="openModal(\''+c.id+'\')"><div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,'+stripeBg+' 0%,transparent 60%)"></div><div style="position:relative;z-index:2"><div style="height:2px;width:36px;background:'+stripe+';border-radius:1px;margin-bottom:11px"></div><div style="font-family:\'Cinzel\',serif;font-size:7.5px;letter-spacing:.26em;color:'+stripe+'88;margin-bottom:5px">'+fv.label+' \u00b7 '+c.rank.toUpperCase()+'</div><div style="font-family:\'Cinzel Decorative\',serif;font-size:clamp(16px,2.6vw,24px);color:'+nameColor+';margin-bottom:5px;line-height:1.1">'+c.name+'</div><div style="font-family:\'Cinzel\',serif;font-size:8.5px;letter-spacing:.14em;color:var(--parchment-dim);margin-bottom:11px">'+c.epithet+'</div><div style="height:.5px;width:36px;background:linear-gradient(90deg,'+stripe+',transparent);margin-bottom:11px"></div><div style="font-style:italic;font-size:13px;color:var(--parchment);line-height:1.6;margin-bottom:13px">'+c.quote+'</div><div style="font-family:\'Cinzel\',serif;font-size:7.5px;letter-spacing:.13em;color:var(--parchment-dim);margin-bottom:13px">'+c.role+'</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px">'+(c.books||[]).map(b=>'<span style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.13em;padding:2px 7px;background:'+tagBg+';color:'+nameColor+';border:.5px solid '+tagBorder+';border-radius:1px">'+b+'</span>').join('')+'</div><div style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border:.5px solid '+stripe+'44;background:'+tagBg+';color:'+nameColor+';font-family:\'Cinzel\',serif;font-size:7.5px;letter-spacing:.18em;border-radius:2px">CONSULT THE RECORD \u203a</div></div></div>';
+}
+function renderChronicle(){
+  const el=document.getElementById('chronicle-main');
+  if(el.dataset.rendered)return;el.dataset.rendered='1';
+  let html='';
+  ERAS.forEach(era=>{
+    const chars=C.filter(c=>c.era===era.id&&c.id!=='zeruel'&&c.id!=='samyaza'&&c.id!=='the-lamb');
+    html+='<div class="era-block"><div class="era-node"><div class="era-node-dot" style="background:'+era.color+'"></div></div><div class="era-block-name" style="color:'+era.color+'">'+era.name+'</div><div class="era-block-date">'+era.date+'</div><div class="era-block-desc">'+era.desc+'</div>'+(chars.length?'<div class="era-chars">'+chars.map(c=>{const fv=f(c.faction);return'<span class="era-char-pill" style="background:'+fv.tagBg+';color:'+fv.name+';border-color:'+fv.stripe+'44" onclick="openModal(\''+c.id+'\')">'+c.name+'</span>';}).join('')+'</div>':'')+'<div class="era-events">'+era.events.map(ev=>'<div class="era-event" style="border-color:'+era.color+'55"><div class="era-event-name">'+ev.name+'</div><div class="era-event-quote">'+ev.quote+'</div><div class="era-event-desc">'+ev.desc+'</div></div>').join('')+'</div></div>';
+  });
+  el.innerHTML+=html;
+}
+function renderLore(){
+  const filters=document.getElementById('lore-filters');
+  filters.innerHTML='<button class="lore-filter-btn active" style="background:rgba(201,168,76,.1);color:var(--gold);border-color:rgba(201,168,76,.3)" onclick="filterLore(\'all\',this)">ALL</button>'+ERAS.map(e=>'<button class="lore-filter-btn" style="border-color:'+e.color+'22" onclick="filterLore(\''+e.id+'\',this)">'+e.name.replace('THE ','')+'</button>').join('');
+  document.getElementById('lore-list').innerHTML=LORE.map(l=>{const era=ERAS.find(e=>e.id===l.era);return'<div class="lore-card" data-era="'+l.era+'"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px"><span style="font-family:\'Cinzel\',serif;font-size:7.5px;letter-spacing:.24em;color:var(--gold-dim)">'+l.type+'</span>'+(era?'<span style="font-family:\'Cinzel\',serif;font-size:7px;letter-spacing:.09em;padding:2px 6px;background:rgba(0,0,0,.3);color:'+era.color+';border:.5px solid '+era.color+'44;border-radius:1px">'+era.name.replace('THE ','')+'</span>':'')+'</div><div style="font-family:\'Cinzel\',serif;font-size:13.5px;color:var(--gold);margin-bottom:7px">'+l.title+'</div><div style="font-size:12.5px;line-height:1.6;color:var(--parchment-dim)">'+l.desc+'</div></div>';}).join('');
+}
+function filterLore(eraId,btn){
+  document.querySelectorAll('.lore-filter-btn').forEach(b=>{b.classList.remove('active');b.style.background='rgba(255,255,255,.04)';b.style.color='';b.style.borderColor='';});
+  btn.classList.add('active');
+  const era=ERAS.find(e=>e.id===eraId);
+  if(era){btn.style.background=era.color+'22';btn.style.color=era.color;btn.style.borderColor=era.color+'55';}
+  else{btn.style.background='rgba(201,168,76,.1)';btn.style.color='var(--gold)';btn.style.borderColor='rgba(201,168,76,.3)';}
+  document.querySelectorAll('.lore-card').forEach(card=>{card.classList.toggle('hidden',eraId!=='all'&&card.dataset.era!==eraId);});
+}
+let animId=null,tick=0,hovered=null,cachedW=0,cachedH=0,cachedPos={};
+function getPos(W,H){
+  const cx=W/2,cy=H/2;
+  const sx=W/1400,sy=H/800;
+  const s=Math.min(sx,sy)*0.92;
+  return{
+    'the-lamb':{x:cx,y:cy},
+    'zeruel':{x:cx-200*s,y:cy-80*s},
+    'samyaza':{x:cx+200*s,y:cy-80*s},
+    'adam':{x:cx-340*s,y:cy+55*s},
+    'eve':{x:cx-230*s,y:cy+185*s},
+    'abel':{x:cx-310*s,y:cy+185*s},
+    'cain':{x:cx-240*s,y:cy-240*s},
+    'seth':{x:cx-400*s,y:cy+225*s},
+    'jubal':{x:cx+140*s,y:cy-310*s},
+    'the-watchers':{x:cx+250*s,y:cy-245*s},
+    'the-nephilim':{x:cx+415*s,y:cy-85*s},
+    'noah':{x:cx-360*s,y:cy-65*s},
+    'shem':{x:cx-445*s,y:cy-150*s},
+    'ham':{x:cx-410*s,y:cy+90*s},
+    'japheth':{x:cx-265*s,y:cy+255*s},
+    'canaan':{x:cx-133*s,y:cy+135*s},
+    'nimrod':{x:cx+90*s,y:cy-245*s},
+    'babel':{x:cx+95*s,y:cy-155*s},
+    'the-adversary':{x:cx+400*s,y:cy-160*s},
+    'job':{x:cx+335*s,y:cy+92*s},
+    'eliphaz':{x:cx+475*s,y:cy+25*s},
+    'bildad':{x:cx+495*s,y:cy+178*s},
+    'zophar':{x:cx+445*s,y:cy+288*s},
+    'abram':{x:cx-72*s,y:cy+265*s}
+  };}
+function initWeb(){
+  const cvs=document.getElementById('cvs');
+  const wrap=cvs.parentElement;
+  const rect=wrap.getBoundingClientRect();
+  const W=rect.width||wrap.offsetWidth||800;
+  const H=rect.height||wrap.offsetHeight||600;
+  if(W!==cachedW||H!==cachedH){cvs.width=W;cvs.height=H;cachedW=W;cachedH=H;cachedPos=getPos(W,H);}
+  if(animId)return;
+  const ctx=cvs.getContext('2d');
+  const edges=new Set();
+  C.forEach(c=>c.connections.forEach(con=>edges.add([c.id,con.to].sort().join('|'))));
+  animId=setInterval(()=>{
+    ctx.clearRect(0,0,cachedW,cachedH);ctx.fillStyle='#0a0806';ctx.fillRect(0,0,cachedW,cachedH);
+    const rg=ctx.createRadialGradient(cachedW/2,cachedH/2,20,cachedW/2,cachedH/2,270);rg.addColorStop(0,'rgba(201,168,76,0.05)');rg.addColorStop(1,'transparent');ctx.fillStyle=rg;ctx.fillRect(0,0,cachedW,cachedH);
+    edges.forEach(e=>{const[a,b]=e.split('|');const pa=cachedPos[a],pb=cachedPos[b];if(!pa||!pb)return;const ha=hovered===a,hb=hovered===b,hi=ha||hb;const fa=f(C.find(x=>x.id===a)&&C.find(x=>x.id===a).faction||'human');const fb=f(C.find(x=>x.id===b)&&C.find(x=>x.id===b).faction||'human');ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);if(hi){ctx.strokeStyle=(ha?fa:fb).stripe+'88';ctx.lineWidth=1.5;}else{ctx.strokeStyle='rgba(201,168,76,0.08)';ctx.lineWidth=.5;}ctx.stroke();});
+    C.forEach(c=>{
+      const p=cachedPos[c.id];if(!p)return;
+      const fv=f(c.faction);const isH=hovered===c.id,isLamb=c.id==='the-lamb',isNar=c.id==='zeruel'||c.id==='samyaza';
+      const r=isLamb?22:isNar?16:c.faction==='fallen'||c.faction==='heavenly'?13:9;
+      const pulse=isLamb?(Math.sin(tick*.02)*3+Math.sin(tick*.013)*1.5):isNar?(Math.sin(tick*.035+(c.id==='zeruel'?0:Math.PI))*1):0;
+      if(isH||isLamb||isNar){const gr=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r+pulse+(isH?22:isLamb?28:14));gr.addColorStop(0,fv.stripe+(isLamb?'55':isH?'44':'22'));gr.addColorStop(1,'transparent');ctx.fillStyle=gr;ctx.beginPath();ctx.arc(p.x,p.y,r+pulse+(isH?22:isLamb?28:14),0,Math.PI*2);ctx.fill();}
+      ctx.beginPath();ctx.arc(p.x,p.y,r+pulse,0,Math.PI*2);ctx.fillStyle='rgba(14,11,6,.95)';ctx.fill();
+      ctx.strokeStyle=isH?fv.stripe:fv.stripe+(isLamb?'cc':isNar?'99':'66');ctx.lineWidth=isH?2:isLamb?1.5:1;ctx.stroke();
+      if(isLamb){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(Math.PI/4+tick*.004);ctx.strokeStyle=fv.stripe+'55';ctx.lineWidth=.5;ctx.strokeRect(-(r+pulse+6),-(r+pulse+6),(r+pulse+6)*2,(r+pulse+6)*2);ctx.rotate(-tick*.007);ctx.strokeStyle=fv.stripe+'33';ctx.strokeRect(-(r+pulse+10),-(r+pulse+10),(r+pulse+10)*2,(r+pulse+10)*2);ctx.restore();}
+      ctx.beginPath();ctx.arc(p.x,p.y,isLamb?4.5:isNar?3.5:2.5,0,Math.PI*2);ctx.fillStyle=fv.stripe+(isH?'ff':isLamb?'ee':'99');ctx.fill();
+      ctx.font=(isLamb?'600 15px':isNar?'600 14px':'500 13px')+' "Cinzel",serif';ctx.fillStyle=isH?fv.stripe:isNar?fv.stripe+'ee':'rgba(225,210,175,.95)';ctx.textAlign='center';ctx.fillText(c.name.toUpperCase(),p.x,p.y+r+pulse+16);
+    });tick++;
+  },34);
+  function hit(mx,my){for(const c of C){const p=cachedPos[c.id];if(!p)continue;const isL=c.id==='the-lamb',isN=c.id==='zeruel'||c.id==='samyaza';const r=isL?28:isN?20:15;if(Math.hypot(mx-p.x,my-p.y)<r)return c.id;}return null;}
+  const tip=document.getElementById('tip');
+  cvs.onmousemove=e=>{const r=cvs.getBoundingClientRect();const id=hit(e.clientX-r.left,e.clientY-r.top);hovered=id;cvs.style.cursor=id?'pointer':'default';if(id){const ch=C.find(x=>x.id===id);const fv=f(ch.faction);tip.textContent=ch.name+' \u2014 '+ch.epithet;tip.style.left=(e.clientX-r.left+14)+'px';tip.style.top=(e.clientY-r.top-6)+'px';tip.style.opacity='1';tip.style.borderColor=fv.stripe+'88';}else{tip.style.opacity='0';}};
+  cvs.onclick=e=>{const r=cvs.getBoundingClientRect();const id=hit(e.clientX-r.left,e.clientY-r.top);if(id)openModal(id);};
+  cvs.onmouseleave=()=>{hovered=null;tip.style.opacity='0';cvs.style.cursor='default';};
+}
+function stopWeb(){if(animId){clearInterval(animId);animId=null;}}
+let resizeTimer=null;
+window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(document.getElementById('v-web').classList.contains('active')){stopWeb();cachedW=0;cachedH=0;setTimeout(initWeb,50);}},200);});
+function switchTab(name,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('v-'+name).classList.add('active');btn.classList.add('active');
+  if(name==='web'){stopWeb();cachedW=0;cachedH=0;setTimeout(initWeb,120);}
+  if(name==='records')renderRecords();
+  if(name==='chronicle')renderChronicle();
+  if(name==='lore')renderLore();
+}
+window.addEventListener('load',()=>{setTimeout(initWeb,100);});
+</script></body></html>

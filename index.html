@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Between Two Thrones — Dale Snelson</title>
+<meta name="description" content="Between the faithful whisper and the brighter ache, two angels watch the terrifying gift of choice unfold. A biblical fiction series by Dale Snelson.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230d0b08'/><path d='M6 24L9 12L14 18L16 8L18 18L23 12L26 24H6Z' fill='%23c9a84c'/><rect x='6' y='24' width='20' height='3' rx='1' fill='%23c9a84c' opacity='.6'/></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'EB Garamond',Georgia,serif;background:#0d0b08;color:#c4b48a;overflow-x:hidden}
+:root{--gold:#c9a84c;--gold-light:#e8c96a;--gold-dim:#7a6130;--gold-pale:#d4b96a;--parchment:#c4b48a;--parchment-dim:#8a7a5a}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#0a0805}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,8,5,0);transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(10,8,5,.97);border-bottom-color:var(--gold-dim)}
+.nav-logo{font-family:'Cinzel Decorative',serif;font-size:13px;letter-spacing:.15em;color:var(--gold);text-shadow:0 0 20px rgba(201,168,76,.4);text-decoration:none}
+.nav-links{display:flex;gap:28px;list-style:none}
+@media(max-width:768px){.nav-links{display:none}}
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;z-index:300}
+.nav-hamburger span{display:block;height:1.5px;background:var(--gold);border-radius:2px;transition:all .3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+@media(max-width:768px){.nav-hamburger{display:flex}}
+.nav-drawer{position:fixed;inset:0;z-index:250;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;background:rgba(10,8,5,.98);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+.nav-drawer.open{opacity:1;pointer-events:all}
+.nav-drawer a{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.28em;color:var(--parchment-dim);text-decoration:none;transition:color .2s}
+.nav-drawer a:hover{color:var(--gold)}
+.nav-drawer-divider{width:40px;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent)}
+.nav-links a{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.22em;color:var(--parchment-dim);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-spotify{display:flex;align-items:center;gap:7px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.18em;color:var(--parchment-dim);text-decoration:none;transition:color .2s}
+.nav-spotify:hover{color:#1db954}
+.nav-spotify svg{width:14px;height:14px;fill:currentColor}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 40px 60px;overflow:hidden}
+.hero-img{position:absolute;inset:0;background-image:url('hero-bg.png');background-size:cover;background-position:center top;filter:brightness(.28) saturate(.9)}
+.hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(100,70,20,.3) 0%,transparent 70%),linear-gradient(180deg,rgba(13,11,8,.2) 0%,rgba(13,11,8,.5) 60%,rgba(13,11,8,.92) 100%)}
+.hero-grain{position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+#star-canvas{position:absolute;inset:0;pointer-events:none}
+.hero-above{position:relative;z-index:2;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;color:var(--gold-dim);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards}
+.hero-rule{position:relative;z-index:2;display:flex;align-items:center;gap:16px;margin:0 auto 32px;max-width:400px;opacity:0;animation:fadeUp .8s .4s forwards}
+.hero-rule-line{flex:1;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-dim))}
+.hero-rule-line.r{background:linear-gradient(270deg,transparent,var(--gold-dim))}
+.hero-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.hero-title{position:relative;z-index:2;font-family:'Cinzel Decorative',serif;font-size:clamp(32px,7vw,80px);color:var(--gold);text-shadow:0 0 60px rgba(201,168,76,.5),0 0 120px rgba(201,168,76,.15);line-height:1.05;letter-spacing:.04em;margin-bottom:8px;opacity:0;animation:fadeUp .9s .5s forwards}
+.hero-subtitle{position:relative;z-index:2;font-family:'Cinzel',serif;font-size:clamp(10px,1.5vw,13px);letter-spacing:.3em;color:var(--parchment-dim);margin-bottom:36px;opacity:0;animation:fadeUp .8s .65s forwards}
+.hero-tagline{position:relative;z-index:2;font-style:italic;font-size:clamp(15px,2.2vw,20px);color:var(--parchment);line-height:1.75;max-width:680px;margin:0 auto 48px;opacity:0;animation:fadeUp .8s .8s forwards}
+.hero-tagline em{color:var(--gold-pale);font-style:normal}
+.hero-ctas{position:relative;z-index:2;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .8s 1s forwards}
+.btn-primary{padding:13px 32px;background:rgba(201,168,76,.12);border:1px solid var(--gold);color:var(--gold);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.25em;text-decoration:none;border-radius:2px;transition:all .28s}
+.btn-primary:hover{background:rgba(201,168,76,.22);box-shadow:0 0 24px rgba(201,168,76,.25)}
+.btn-secondary{padding:13px 32px;background:rgba(0,0,0,.3);border:1px solid var(--gold-dim);color:var(--parchment-dim);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.25em;text-decoration:none;border-radius:2px;transition:all .28s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--parchment)}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .8s 1.4s forwards}
+.hero-scroll span{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.3em;color:var(--gold-dim)}
+.scroll-line{width:.5px;height:40px;background:linear-gradient(180deg,var(--gold-dim),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* SHARED */
+section{padding:100px 40px}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-rule{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.section-rule-line{flex:1;height:.5px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.section-eyebrow{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;color:var(--gold-dim)}
+.section-title{font-family:'Cinzel Decorative',serif;font-size:clamp(22px,3.5vw,36px);color:var(--gold);margin-bottom:14px;line-height:1.15}
+.section-lead{font-size:clamp(15px,1.8vw,18px);line-height:1.8;color:var(--parchment-dim);max-width:640px}
+
+/* BOOKS */
+#books{background:linear-gradient(180deg,#0d0b08 0%,#111009 50%,#0d0b08 100%)}
+.books-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:48px}
+@media(max-width:700px){.books-grid{grid-template-columns:1fr}}
+.book-card{position:relative;border-radius:3px;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.book-card:hover{transform:translateY(-4px)}
+.book-card::before{content:'';position:absolute;inset:7px;border:.5px solid rgba(201,168,76,.15);border-radius:1px;pointer-events:none;z-index:3}
+.book-img-wrap{position:relative;width:100%;height:260px;overflow:hidden}
+.book-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s}
+.book-card:hover .book-img-wrap img{transform:scale(1.04)}
+.book-img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,11,8,.1) 0%,rgba(13,11,8,.85) 100%)}
+.book-body{padding:28px 28px 24px;position:relative;z-index:2}
+.book-1-wrap{background:#131008;border:1px solid var(--gold-dim);box-shadow:0 0 40px rgba(201,168,76,.08)}
+.book-1-wrap:hover{box-shadow:0 0 60px rgba(201,168,76,.16)}
+.book-2-wrap{background:#0f0c18;border:1px solid #5a3a8a;box-shadow:0 0 40px rgba(120,80,200,.06)}
+.book-2-wrap:hover{box-shadow:0 0 60px rgba(120,80,200,.14)}
+.book-num{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;color:var(--gold-dim);margin-bottom:8px}
+.book-title{font-family:'Cinzel',serif;font-size:clamp(15px,1.8vw,20px);letter-spacing:.07em;margin-bottom:5px;line-height:1.2}
+.book-subtitle{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.16em;color:var(--parchment-dim);margin-bottom:16px}
+.book-div{height:.5px;width:36px;margin-bottom:16px}
+.book-desc{font-size:14px;line-height:1.75;color:var(--parchment-dim);margin-bottom:16px}
+.book-quote{font-style:italic;font-size:13px;color:var(--parchment);border-left:1.5px solid var(--gold-dim);padding-left:12px;line-height:1.6;margin-bottom:20px;opacity:.85}
+.book-links{display:flex;flex-wrap:wrap;gap:8px}
+.book-link{display:inline-flex;align-items:center;gap:7px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.16em;padding:8px 13px;border-radius:2px;text-decoration:none;transition:all .22s}
+.book-link:hover{transform:translateY(-1px)}
+.yt-icon{width:13px;height:13px;flex-shrink:0}
+.x-icon{width:11px;height:11px;flex-shrink:0}
+
+/* CODEX */
+#codex{background:linear-gradient(180deg,#0d0b08 0%,#0a0806 100%);position:relative;overflow:hidden}
+.codex-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 70%);pointer-events:none}
+.codex-gateway{position:relative;margin-top:48px;padding:48px;background:radial-gradient(ellipse 80% 100% at 50% 0%,rgba(201,168,76,.1) 0%,rgba(201,168,76,.03) 60%,transparent 100%),linear-gradient(180deg,#1a1608 0%,#0f0d06 100%);border:.5px solid var(--gold);border-radius:3px;text-align:center;overflow:hidden;transition:box-shadow .4s,transform .3s}
+.codex-gateway:hover{box-shadow:0 0 80px rgba(201,168,76,.2),0 0 160px rgba(201,168,76,.08);transform:translateY(-3px)}
+.codex-gateway::before{content:'';position:absolute;inset:8px;border:.5px solid rgba(201,168,76,.2);border-radius:1px;pointer-events:none}
+.codex-rays{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% -10%,rgba(201,168,76,.04) 0deg,transparent 3deg,transparent 12deg);opacity:.5;pointer-events:none}
+.codex-icon{width:56px;height:56px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;background:rgba(201,168,76,.08);box-shadow:0 0 24px rgba(201,168,76,.2)}
+.codex-name{font-family:'Cinzel Decorative',serif;font-size:clamp(18px,2.5vw,28px);color:var(--gold);text-shadow:0 0 30px rgba(201,168,76,.4);margin-bottom:8px}
+.codex-sub{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.25em;color:var(--parchment-dim);margin-bottom:24px}
+.codex-features{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.codex-feat{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.18em;color:var(--parchment-dim);display:flex;align-items:center;gap:7px}
+.codex-feat::before{content:'';width:4px;height:4px;background:var(--gold-dim);transform:rotate(45deg);flex-shrink:0}
+.codex-note{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.15em;color:var(--gold-dim);margin-top:16px}
+
+/* MUSIC */
+#music{background:linear-gradient(180deg,#0a0806 0%,#0d0b08 100%)}
+.music-tabs{display:flex;border-bottom:1px solid var(--gold-dim);margin-bottom:36px;margin-top:48px}
+.music-tab{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;padding:10px 20px;color:var(--parchment-dim);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .22s}
+.music-tab:hover{color:var(--gold-light)}
+.music-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.music-panel{display:none}.music-panel.active{display:block}
+.song-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.song-card{position:relative;background:#0f0d06;border:.8px solid rgba(201,168,76,.18);border-radius:3px;overflow:hidden;text-decoration:none;display:block;transition:all .28s}
+.song-card:hover{border-color:var(--gold-dim);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.song-art{width:100%;aspect-ratio:1;overflow:hidden;position:relative}
+.song-art img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.song-card:hover .song-art img{transform:scale(1.05)}
+.song-art-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .28s;display:flex;align-items:center;justify-content:center}
+.song-card:hover .song-art-overlay{background:rgba(0,0,0,.35)}
+.song-play{width:52px;height:52px;border-radius:50%;background:rgba(201,168,76,.2);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.8);transition:all .25s}
+.song-card:hover .song-play{opacity:1;transform:scale(1)}
+.song-body{padding:14px 16px}
+.song-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;color:var(--gold);margin-bottom:4px;line-height:1.3}
+.song-desc{font-size:12px;line-height:1.5;color:var(--parchment-dim)}
+.song-platform{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.15em;color:var(--gold-dim);margin-top:6px;display:flex;align-items:center;gap:5px}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.v-card{position:relative;background:linear-gradient(145deg,#161209 0%,#0f0d06 100%);border:.8px solid rgba(201,168,76,.2);border-radius:3px;overflow:hidden;text-decoration:none;display:block;transition:all .25s}
+.v-card:hover{border-color:var(--gold-dim);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.v-thumb{position:relative;width:100%;padding-bottom:56.25%;background:#0a0806;overflow:hidden}
+.v-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .25s}
+.v-card:hover .v-thumb img{opacity:.95}
+.v-thumb-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1408 0%,#0f0c06 100%)}
+.v-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.15);border:1px solid var(--gold-dim);transition:all .25s}
+.v-card:hover .v-play{transform:translate(-50%,-50%) scale(1.1);background:rgba(201,168,76,.25)}
+.v-type{position:absolute;top:10px;left:10px;font-family:'Cinzel',serif;font-size:7px;letter-spacing:.18em;padding:3px 8px;border-radius:1px;background:rgba(10,8,5,.85);border:.5px solid rgba(201,168,76,.25);color:var(--gold)}
+.v-body{padding:14px 16px}
+.v-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;color:var(--gold);margin-bottom:5px;line-height:1.3}
+.v-desc{font-size:12px;line-height:1.55;color:var(--parchment-dim)}
+.spotify-wrap{padding:24px;background:linear-gradient(135deg,#141010 0%,#0f0d08 100%);border:.5px solid rgba(29,185,84,.2);border-radius:3px;display:flex;align-items:center;gap:20px;text-decoration:none;transition:all .25s;margin-bottom:16px}
+.spotify-wrap:hover{border-color:rgba(29,185,84,.5);box-shadow:0 0 24px rgba(29,185,84,.08);transform:translateY(-2px)}
+.spotify-icon{width:52px;height:52px;background:#1db954;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ABOUT */
+#about{background:linear-gradient(180deg,#0d0b08 0%,#0a0806 100%)}
+.about-grid{display:grid;grid-template-columns:1fr 2fr;gap:60px;align-items:start;margin-top:48px}
+@media(max-width:700px){.about-grid{grid-template-columns:1fr}}
+.about-sigil{position:relative;border:.5px solid var(--gold-dim);border-radius:3px;overflow:hidden;background:linear-gradient(145deg,#1a1608 0%,#0f0d06 100%)}
+.about-sigil::before{content:'';position:absolute;inset:7px;border:.5px solid rgba(201,168,76,.12);border-radius:1px;pointer-events:none;z-index:1}
+.sigil-photo{width:100%;height:280px;object-fit:cover;object-position:center 20%;display:block;filter:saturate(.85)}
+.sigil-photo-overlay{position:absolute;top:0;left:0;right:0;height:280px;background:linear-gradient(180deg,transparent 50%,rgba(13,11,6,.95) 100%)}
+.sigil-info{padding:24px;position:relative;z-index:2}
+.sigil-name{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold);margin-bottom:5px;text-shadow:0 0 16px rgba(201,168,76,.3)}
+.sigil-title{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;color:var(--gold-dim);margin-bottom:16px}
+.sigil-div{width:36px;height:.5px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin-bottom:16px}
+.sigil-location{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.16em;color:var(--parchment-dim);margin-bottom:16px}
+.sigil-links{display:flex;flex-direction:column;gap:7px}
+.sigil-link{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.14em;padding:7px 12px;border:.5px solid var(--gold-dim);color:var(--parchment-dim);text-decoration:none;border-radius:1px;transition:all .2s;text-align:center}
+.sigil-link:hover{border-color:var(--gold);color:var(--gold)}
+.about-narrator{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.25em;color:var(--gold-dim);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.about-narrator::after{content:'';flex:1;height:.5px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.about-body p{font-size:clamp(15px,1.8vw,17px);line-height:1.88;color:var(--parchment);margin-bottom:18px}
+.about-body p:last-child{margin-bottom:0}
+.about-body em{color:var(--gold-pale);font-style:normal}
+.about-body .closer{font-style:italic;font-size:clamp(16px,1.9vw,18px);color:var(--parchment-dim)}
+
+/* COMMUNITY */
+#community{background:linear-gradient(180deg,#0a0806 0%,#0d0b08 100%)}
+.mail-wrap{margin-top:48px;padding:48px;background:linear-gradient(145deg,#161209 0%,#0f0d06 100%);border:.5px solid var(--gold-dim);border-radius:3px;text-align:center;position:relative;overflow:hidden}
+.mail-wrap::before{content:'';position:absolute;inset:8px;border:.5px solid rgba(201,168,76,.1);border-radius:1px;pointer-events:none}
+.mail-title{font-family:'Cinzel Decorative',serif;font-size:clamp(18px,2.5vw,26px);color:var(--gold);margin-bottom:12px}
+.mail-sub{font-size:clamp(14px,1.6vw,16px);color:var(--parchment-dim);line-height:1.7;max-width:480px;margin:0 auto 32px}
+.mail-form{display:flex;gap:12px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.mail-input{flex:1;min-width:200px;padding:12px 18px;background:rgba(255,255,255,.04);border:.5px solid var(--gold-dim);border-radius:2px;color:var(--parchment);font-family:'EB Garamond',serif;font-size:15px;outline:none;transition:border-color .2s}
+.mail-input::placeholder{color:var(--parchment-dim);opacity:.6}
+.mail-input:focus{border-color:var(--gold)}
+.mail-btn{padding:12px 28px;background:rgba(201,168,76,.1);border:1px solid var(--gold);color:var(--gold);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.22em;cursor:pointer;border-radius:2px;transition:all .25s;white-space:nowrap}
+.mail-btn:hover{background:rgba(201,168,76,.2)}
+.mail-note{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.14em;color:var(--parchment-dim);margin-top:16px;opacity:.7}
+.mail-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px;max-width:640px;margin-left:auto;margin-right:auto}
+@media(max-width:600px){.mail-tiers{grid-template-columns:1fr}}
+.tier{padding:18px;border-radius:2px;border:.5px solid;text-align:left}
+.tier-name{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;margin-bottom:6px}
+.tier-desc{font-size:12px;line-height:1.6;color:var(--parchment-dim)}
+footer{padding:40px;border-top:1px solid var(--gold-dim);background:#0a0806;text-align:center}
+.footer-logo{font-family:'Cinzel Decorative',serif;font-size:14px;color:var(--gold);letter-spacing:.15em;margin-bottom:8px;opacity:.7}
+.footer-sub{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;color:var(--gold-dim)}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">BETWEEN TWO THRONES</a>
+  <ul class="nav-links">
+    <li><a href="#books">THE BOOKS</a></li>
+    <li><a href="#codex">THE CODEX</a></li>
+    <li><a href="#music">THE MUSIC</a></li>
+    <li><a href="#about">DALE SNELSON</a></li>
+    <li><a href="#community">JOIN</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
+  <a href="https://open.spotify.com/artist/3xp3WxQovTofmroPFNtrgK" target="_blank" class="nav-spotify">
+    <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    SPOTIFY
+  </a>
+</nav>
+
+<div class="nav-drawer" id="nav-drawer">
+  <a href="#books" onclick="toggleDrawer()">THE BOOKS</a>
+  <div class="nav-drawer-divider"></div>
+  <a href="#codex" onclick="toggleDrawer()">THE CODEX</a>
+  <div class="nav-drawer-divider"></div>
+  <a href="#music" onclick="toggleDrawer()">THE MUSIC</a>
+  <div class="nav-drawer-divider"></div>
+  <a href="#about" onclick="toggleDrawer()">DALE SNELSON</a>
+  <div class="nav-drawer-divider"></div>
+  <a href="#community" onclick="toggleDrawer()">JOIN</a>
+</div>
+
+
+<section class="hero" id="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <canvas id="star-canvas"></canvas>
+  <div class="hero-above">A SERIES BY DALE SNELSON</div>
+  <div class="hero-rule"><div class="hero-rule-line"></div><div class="hero-diamond"></div><div class="hero-rule-line r"></div></div>
+  <h1 class="hero-title">BETWEEN<br>TWO THRONES</h1>
+  <div class="hero-subtitle">BOOKS I & II — NOW AVAILABLE AS CHAPTERS</div>
+  <p class="hero-tagline">Between the <em>faithful whisper</em> and the <em>brighter ache</em>, two angels watch the terrifying gift of choice unfold — and ask the question that echoes from Eden to now:<br><em>Why is the beauty worth the breaking?</em></p>
+  <div class="hero-ctas">
+    <a href="#books" class="btn-primary">ENTER THE STORY</a>
+    <a href="#codex" class="btn-secondary">EXPLORE THE CODEX</a>
+  </div>
+  <div class="hero-scroll"><span>SCROLL</span><div class="scroll-line"></div></div>
+</section>
+
+<section id="books">
+  <div class="section-inner">
+    <div class="section-rule"><span class="section-eyebrow">THE ETERNAL RECORDS</span><div class="section-rule-line"></div></div>
+    <h2 class="section-title">The Books</h2>
+    <p class="section-lead">Novel-like chapters told from the witness of two angels — lyrical prose shaped for the ear as much as the eye, audiobook-ready, raw without ornament.</p>
+    <div class="books-grid">
+      <div class="book-card book-1-wrap">
+        <div class="book-img-wrap">
+          <img src="book1-cover.png" alt="Before the Ground Was Cursed">
+          <div class="book-img-overlay"></div>
+        </div>
+        <div class="book-body">
+          <div class="book-num">BOOK ONE · BETWEEN TWO THRONES</div>
+          <h3 class="book-title" style="color:#d4b96a">Before the Ground Was Cursed</h3>
+          <div class="book-subtitle">FROM THE FIRST SONG TO THE LOOSENING OF THE CHAIN</div>
+          <div class="book-div" style="background:linear-gradient(90deg,var(--gold-dim),transparent)"></div>
+          <p class="book-desc">The song before the silence. Creation unfolds in six Words. Eden rises and falls. Cain's mark burns. The Watchers descend on Hermon in immortal blood. The flood rises. And in the abyss, a chain is loosened — not mercy, not yet. Just enough to walk until the Lamb comes.</p>
+          <div class="book-quote">"We were younger than light when we first learned to laugh. Then the Music stopped."</div>
+          <div class="book-links">
+            <a href="https://www.youtube.com/playlist?list=PL-OrlERUG8NzEIa40UjS3u5Mdp9CZ3XBF" target="_blank" class="book-link" style="background:rgba(255,40,40,.08);border:.5px solid rgba(255,80,80,.25);color:#ff8080">
+              <svg class="yt-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              WATCH PLAYLIST
+            </a>
+            <a href="https://x.com/dsnelson99/status/2021047552531955955" target="_blank" class="book-link" style="background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.22);color:var(--parchment-dim)">
+              <svg class="x-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.85L1.254 2.25H8.08l4.259 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+              READ ON X
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="book-card book-2-wrap">
+        <div class="book-img-wrap">
+          <img src="book2-cover.jpg" alt="The Bow and the Whirlwind">
+          <div class="book-img-overlay"></div>
+        </div>
+        <div class="book-body">
+          <div class="book-num" style="color:#9b7dd4">BOOK TWO · BETWEEN TWO THRONES</div>
+          <h3 class="book-title" style="color:#b09de0">The Bow and the Whirlwind</h3>
+          <div class="book-subtitle" style="color:#7a6a9a">FROM THE RECEDING WATERS TO THE TURNING OF JOB'S CAPTIVITY</div>
+          <div class="book-div" style="background:linear-gradient(90deg,#5a3a8a,transparent)"></div>
+          <p class="book-desc">The mud of receding waters. Nations scatter from Babel's shadow. A blameless man in Uz rises before dawn to guard what he loves. The hedge falls. Four messengers. The whirlwind speaks — not reasons, but majesty. And on the horizon, a man with no children yet hears: Go.</p>
+          <div class="book-quote" style="border-left-color:#5a3a8a">"I had heard of You by the hearing of the ear — but now my eye sees You."</div>
+          <div class="book-links">
+            <a href="https://x.com/dsnelson99/status/2034432423325217214" target="_blank" class="book-link" style="background:rgba(155,125,212,.08);border:.5px solid rgba(155,125,212,.28);color:#b09de0">
+              <svg class="x-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.85L1.254 2.25H8.08l4.259 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+              READ ON X — PART 1
+            </a>
+            <a href="https://x.com/dsnelson99/status/2035572658201329975" target="_blank" class="book-link" style="background:rgba(155,125,212,.08);border:.5px solid rgba(155,125,212,.28);color:#b09de0">
+              <svg class="x-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.85L1.254 2.25H8.08l4.259 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+              READ ON X — PART 2
+            </a>
+            <span class="book-link" style="background:rgba(120,80,200,.05);border:.5px solid rgba(120,80,200,.18);color:#7a6a9a;cursor:default">VIDEO CHAPTERS COMING SOON</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="codex">
+  <div class="section-inner">
+    <div class="codex-glow"></div>
+    <div class="section-rule"><span class="section-eyebrow">THE ANCIENT RECORDS</span><div class="section-rule-line"></div></div>
+    <h2 class="section-title">The Eternal Codex</h2>
+    <p class="section-lead">An interactive companion to the series — explore every character, era, and artifact from the world of Between Two Thrones.</p>
+    <div class="codex-gateway">
+      <div class="codex-rays"></div>
+      <div class="codex-icon">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M3 21L5 9L10 14L13 6L16 14L21 9L23 21H3Z" stroke="#c9a84c" stroke-width="1.2" fill="rgba(201,168,76,.15)"/><rect x="3" y="21" width="20" height="2" rx=".5" fill="#c9a84c" opacity=".6"/></svg>
+      </div>
+      <div class="codex-name">THE ETERNAL RECORDS</div>
+      <div class="codex-sub">CODEX V1.0 — BOOKS I & II</div>
+      <div class="codex-features">
+        <div class="codex-feat">THE RELATION WEB</div>
+        <div class="codex-feat">ANGELIC RECORDS</div>
+        <div class="codex-feat">THE CHRONICLE</div>
+        <div class="codex-feat">ANCIENT LORE</div>
+      </div>
+      <a href="codex.html" class="btn-primary" style="display:inline-flex">ENTER THE CODEX ›</a>
+      <div class="codex-note">AN INTERACTIVE COMPANION TO THE SERIES</div>
+    </div>
+  </div>
+</section>
+
+<section id="music">
+  <div class="section-inner">
+    <div class="section-rule"><span class="section-eyebrow">THE SOUND OF THE WORLD</span><div class="section-rule-line"></div></div>
+    <h2 class="section-title">The Music</h2>
+    <p class="section-lead">Music composed for the world of Between Two Thrones — lyrical, atmospheric, shaped from the same voice that narrates the chapters.</p>
+    <div class="music-tabs">
+      <button class="music-tab active" onclick="switchMusic('songs',this)">THE SONGS</button>
+      <button class="music-tab" onclick="switchMusic('chapters',this)">BOOK CHAPTERS</button>
+      <button class="music-tab" onclick="switchMusic('spotify',this)">FULL CATALOGUE</button>
+    </div>
+    <div class="music-panel active" id="mp-songs">
+      <div class="song-grid">
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-rain.png" alt="Here Comes the Rain"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">Here Comes the Rain</div><div class="song-desc">The flood descends. The ark rises. The old world drowns.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-void.png" alt="Voice Upon the Void"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">Voice Upon the Void</div><div class="song-desc">Before the first Word. The silence before the speaking.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-gopher.png" alt="Gopher Wood"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">Gopher Wood (The Hammer and the Tar)</div><div class="song-desc">One hundred and twenty years of building. The hammer rings.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-eve.png" alt="This at Last"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">This at Last (Eve's Love Song) Remix</div><div class="song-desc">Bone of my bone. The first recognition. The garden still warm.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-enoch.png" alt="Enoch's Warning"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">Enoch's Warning</div><div class="song-desc">The old man on the cliff. The giants rising behind him.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-nephilim.png" alt="The Nephilim"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">The Nephilim</div><div class="song-desc">Their footsteps shook the mountains. Their end became nightmares for nations.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-soil.png" alt="The Voice of the Soil"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">The Voice of the Soil</div><div class="song-desc">Two angels over the cracked and burning earth — between the faithful whisper and the brighter ache.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-atlast.png" alt="This At Last: The First Love Song" style="object-position:top"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">This At Last: The First Love Song</div><div class="song-desc">Bone of my bone. The first recognition. The garden still warm.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="song-card">
+          <div class="song-art"><img src="song-cain.png" alt="The Mark of Cain"><div class="song-art-overlay"><div class="song-play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="song-body"><div class="song-title">The Mark of Cain</div><div class="song-desc">A brother slain. A curse spoken. The wanderer marked by heaven's own hand.</div><div class="song-platform" style="color:#1db954">▶ LISTEN ON SPOTIFY</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="music-panel" id="mp-chapters">
+      <div class="video-grid">
+        <a href="https://www.youtube.com/playlist?list=PL-OrlERUG8NzEIa40UjS3u5Mdp9CZ3XBF" target="_blank" class="v-card">
+          <div class="v-thumb"><img src="https://img.youtube.com/vi/psuHTxnhzcg/maxresdefault.jpg" alt="Book I" onerror="this.style.display='none'"><div class="v-thumb-fallback"><div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.15em;color:var(--gold-dim);text-align:center;padding:0 20px">BEFORE THE GROUND WAS CURSED</div></div><div class="v-play"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div><div class="v-type">PLAYLIST · BOOK I</div></div>
+          <div class="v-body"><div class="v-title">Before the Ground Was Cursed — Full Playlist</div><div class="v-desc">All Book I chapters in order on YouTube.</div></div>
+        </a>
+        <div class="v-card" style="opacity:.55;cursor:default">
+          <div class="v-thumb"><div class="v-thumb-fallback"><div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.15em;color:#9b7dd4;text-align:center;padding:0 20px">THE BOW AND THE WHIRLWIND</div></div><div class="v-type" style="border-color:rgba(155,125,212,.2);color:#9b7dd4">COMING SOON · BOOK II</div></div>
+          <div class="v-body"><div class="v-title" style="color:#9b7dd4">The Bow and the Whirlwind — Chapters</div><div class="v-desc">In production. Read now on X while you wait.</div></div>
+        </div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+        <a href="https://x.com/dsnelson99/status/2034432423325217214" target="_blank" style="display:inline-flex;align-items:center;gap:7px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.15em;padding:8px 14px;background:rgba(155,125,212,.08);border:.5px solid rgba(155,125,212,.25);color:#9b7dd4;text-decoration:none;border-radius:2px">READ BOOK II ON X — PART 1</a>
+        <a href="https://x.com/dsnelson99/status/2035572658201329975" target="_blank" style="display:inline-flex;align-items:center;gap:7px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.15em;padding:8px 14px;background:rgba(155,125,212,.08);border:.5px solid rgba(155,125,212,.25);color:#9b7dd4;text-decoration:none;border-radius:2px">READ BOOK II ON X — PART 2</a>
+      </div>
+    </div>
+    <div class="music-panel" id="mp-spotify">
+      <a href="https://open.spotify.com/album/5Xn6GuUnQ7YVFvHfmTzgND" target="_blank" class="spotify-wrap">
+        <div class="spotify-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+        <div><div style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:.08em;color:var(--gold);margin-bottom:5px">Between Two Thrones — The Original Soundtrack</div><div style="font-size:14px;color:var(--parchment-dim)">Full album on Spotify · Dale Snelson</div></div>
+      </a>
+      <a href="https://open.spotify.com/artist/3xp3WxQovTofmroPFNtrgK" target="_blank" class="spotify-wrap">
+        <div class="spotify-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+        <div><div style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:.08em;color:var(--gold);margin-bottom:5px">Dale Snelson — Artist Page</div><div style="font-size:14px;color:var(--parchment-dim)">All music, playlists, and releases</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-inner">
+    <div class="section-rule"><span class="section-eyebrow">THE WITNESS BEHIND THE WITNESS</span><div class="section-rule-line"></div></div>
+    <h2 class="section-title">Dale Snelson</h2>
+    <div class="about-grid">
+      <div class="about-sigil">
+        <img class="sigil-photo" src="dale-photo.jpg" alt="Dale Snelson">
+        <div class="sigil-photo-overlay"></div>
+        <div class="sigil-info">
+          <div class="sigil-name">Dale Snelson</div>
+          <div class="sigil-title">AUTHOR · BETWEEN TWO THRONES</div>
+          <div class="sigil-div"></div>
+          <div class="sigil-location">OKLAHOMA · THE QUIET PLAINS</div>
+          <div class="sigil-links">
+            <a href="https://open.spotify.com/artist/3xp3WxQovTofmroPFNtrgK" target="_blank" class="sigil-link">SPOTIFY</a>
+            <a href="https://www.youtube.com/playlist?list=PL-OrlERUG8NzEIa40UjS3u5Mdp9CZ3XBF" target="_blank" class="sigil-link">YOUTUBE</a>
+            <a href="https://x.com/dsnelson99" target="_blank" class="sigil-link">X / TWITTER</a>
+            <a href="#community" class="sigil-link">JOIN THE COMMUNITY</a>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <div class="about-narrator">AS RECORDED BY ZERUEL</div>
+        <div class="about-body">
+          <p>I am Zeruel. He is — was — Samyaza.<br>And somewhere between our wings and the scarred earth, a man named Dale listens.</p>
+          <p>He dwells in the quiet plains of Oklahoma, where wind moves over red dirt much like the dust of Eden still remembers its first breath. A husband, a father, a listener who has carried the long question in his own chest: <em>Why is the beauty worth the breaking?</em></p>
+          <p>He does not write to explain God. He writes to stand with the rest of us — dust and angels alike — before the unstrung bow, the whirlwind, the silence after every mercy narrows and then widens again. The <em>Between Two Thrones</em> series is his offering: not polished doctrine, but honest resonance. Lyrical prose shaped for the ear as much as the eye, crafted so the audiobook will feel like whispered conversation between brothers watching history from the crystal sea.</p>
+          <p>Dale believes the terrifying gift of choice still beats at the center of every chapter of Scripture and every chapter of our days. He writes because the ache Samyaza carries is real, and the steady hope Zeruel holds is truer still.</p>
+          <p class="closer">He simply wants the story told with reverence and raw honesty — so that when the reader closes the book, they may look up at the same rainbow, the same silence, and whisper the question with new courage:<br><br><em>Why?</em><br><br>And perhaps, in the asking, glimpse the beauty still unfolding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="community">
+  <div class="section-inner">
+    <div class="section-rule"><span class="section-eyebrow">THE GATHERING</span><div class="section-rule-line"></div></div>
+    <h2 class="section-title">Join the World</h2>
+    <p class="section-lead">Be the first to receive new chapters, music, lore entries, and the conversation happening around this world.</p>
+    <div class="mail-wrap">
+      <div class="mail-title">Enter Your Name in the Record</div>
+      <p class="mail-sub">New chapters. New music. Codex updates. Exclusive content for those who carry the question.</p>
+      <form class="mail-form" name="covenant" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/success">
+        <input type="hidden" name="form-name" value="covenant">
+        <p style="display:none"><input name="bot-field"></p>
+        <input class="mail-input" type="email" name="email" placeholder="Your email address" required>
+        <button class="mail-btn" type="submit">SEAL THE COVENANT</button>
+      </form>
+      <div class="mail-note">No noise. Only signal. Unsubscribe any time.</div>
+      <div class="mail-tiers">
+        <div class="tier" style="border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.04)"><div class="tier-name" style="color:var(--gold)">THE WITNESS</div><div class="tier-desc">Free. New chapters, music, and codex updates as they are written.</div></div>
+        <div class="tier" style="border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.07)"><div class="tier-name" style="color:var(--gold-light)">THE SUPPORTER ✦</div><div class="tier-desc">Early chapters. Behind-the-scenes. Your name in the record. Coming soon.</div></div>
+        <div class="tier" style="border-color:rgba(155,125,212,.4);background:rgba(120,80,200,.06)"><div class="tier-name" style="color:#b09de0">THE INNER CIRCLE ✦✦</div><div class="tier-desc">Direct access. Community. Exclusive lore. The conversation before the book. Coming soon.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">BETWEEN TWO THRONES</div>
+  <div class="footer-sub">© DALE SNELSON · ALL RIGHTS RESERVED · THE ETERNAL RECORDS</div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);});
+function toggleDrawer(){const h=document.getElementById('hamburger');const d=document.getElementById('nav-drawer');h.classList.toggle('open');d.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
+function switchMusic(id,btn){document.querySelectorAll('.music-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.music-tab').forEach(t=>t.classList.remove('active'));document.getElementById('mp-'+id).classList.add('active');btn.classList.add('active');}
+
+(function(){const cvs=document.getElementById('star-canvas');const hero=document.querySelector('.hero');function resize(){cvs.width=hero.clientWidth;cvs.height=hero.clientHeight;}resize();window.addEventListener('resize',resize);const ctx=cvs.getContext('2d');const stars=Array.from({length:200},()=>({x:Math.random(),y:Math.random(),r:Math.random()*.8+.15,o:Math.random()*.4+.08,speed:Math.random()*.003+.001,phase:Math.random()*Math.PI*2}));let t=0;function draw(){ctx.clearRect(0,0,cvs.width,cvs.height);stars.forEach(s=>{const opacity=s.o*(0.6+0.4*Math.sin(t*s.speed+s.phase));ctx.beginPath();ctx.arc(s.x*cvs.width,s.y*cvs.height,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${opacity})`;ctx.fill();});t++;requestAnimationFrame(draw);}draw();})();
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:.08});
+document.querySelectorAll('section:not(.hero)').forEach(s=>{s.style.opacity='0';s.style.transform='translateY(24px)';s.style.transition='opacity .9s ease, transform .9s ease';obs.observe(s);});
+</script>
+</body></html>
